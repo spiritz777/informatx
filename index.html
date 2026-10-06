@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="kk" data-theme="dark">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>InFormatX | Информатика және ҰБТ дайындық платформасы</title>
+  <meta name="description" content="IFX — ҰБТ-ге информатикадан дайындалуға арналған жеке оқу платформасы. AI негізінде сенің деңгейіңді анықтап, жеке жоспар құрастырады." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="index.css" />
+</head>
+
+<body>
+
+  <!-- LANDING SCREEN -->
+  <div class="ob-screen active" id="screenLanding">
+    <div class="bg-decor" aria-hidden="true">
+      <span class="decor-code d1">&lt;/&gt;</span>
+      <span class="decor-code d2">{ }</span>
+      <span class="decor-code d3">01</span>
+      <span class="decor-code d4">110</span>
+      <span class="decor-code d5">if</span>
+      <span class="decor-code d6">[]</span>
+      <div class="grid-pattern"></div>
+    </div>
+
+    <div class="ob-two-col">
+      <div class="ob-left">
+        <div class="brand-pill">
+          <span class="brand-icon">&lt;/&gt;</span>
+          <span>IFX</span>
+        </div>
+        <h1 class="ob-hero-title">ҰБТ-ға информатикадан сенімді дайындал.</h1>
+        <p class="ob-hero-sub">Сенің деңгейің мен мақсатыңа негізделген жеке оқу жоспары.</p>
+        <div class="ob-stats">
+          <div class="ob-stat"><strong>6</strong><span>тақырып</span></div>
+          <div class="ob-stat-div"></div>
+          <div class="ob-stat"><strong>AI</strong><span>талдау</span></div>
+          <div class="ob-stat-div"></div>
+          <div class="ob-stat"><strong>ҰБТ</strong><span>дайындық</span></div>
+        </div>
+      </div>
+
+      <div class="ob-right">
+        <div class="ob-card landing-card">
+          <div class="landing-emoji">🚀</div>
+          <h2 class="landing-title">Информатикаға дайындықты бастайық</h2>
+          <p class="landing-sub">Бірнеше сұраққа жауап бер — біз саған арнап оқу жоспарын құрастырамыз.</p>
+          <button class="btn-primary-ob" id="startBtn" onclick="startOnboarding()">
+            Бастау
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+          <div class="login-row">
+            Аккаунтың бар ма?
+            <button class="link-btn-ob" onclick="openLoginModal()">Кіру</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ONBOARDING STEPS SCREEN -->
+  <div class="ob-screen" id="screenOnboarding">
+    <div class="bg-decor" aria-hidden="true">
+      <span class="decor-code d3">01</span>
+      <span class="decor-code d4">110</span>
+      <div class="grid-pattern"></div>
+    </div>
+
+    <div class="ob-two-col ob-two-col--onb">
+      <div class="ob-left ob-left--onb">
+        <div class="brand-pill">
+          <span class="brand-icon">&lt;/&gt;</span>
+          <span>IFX</span>
+        </div>
+        <div class="onb-left-content">
+          <div class="onb-left-quote" id="leftQuote">Танысайық</div>
+          <div class="onb-left-desc" id="leftDesc">Бірнеше сұрақ жеке жоспарыңды құруға көмектеседі.</div>
+          <div class="onb-left-tags" id="leftTags">
+            <span class="tag-chip">🎯 ҰБТ</span>
+            <span class="tag-chip">💻 Информатика</span>
+            <span class="tag-chip">🤖 AI-жоспар</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="ob-right ob-right--onb">
+        <div class="ob-card steps-card">
+
+          <!-- Progress bar -->
+          <div class="progress-wrap">
+            <div class="progress-top">
+              <span class="progress-label" id="progressLabel">Шаг 1 из 6</span>
+              <span class="progress-pct" id="progressPct">17%</span>
+            </div>
+            <div class="progress-track">
+              <div class="progress-fill" id="progressFill" style="width: 17%"></div>
+            </div>
+            <div class="progress-dots" id="progressDots"></div>
+          </div>
+
+          <!-- STEPS VIEWPORT -->
+          <div class="steps-viewport">
+
+            <!-- STEP 1: Name -->
+            <div class="step active" id="step1" data-step="1">
+              <div class="step-q">Есімің кім?</div>
+              <div class="step-hint">Біз саған есіміңмен жүгінетін боламыз 😊</div>
+              <div class="name-input-wrap">
+                <input type="text" class="ob-input ob-input--large" id="inputName" placeholder="Сенің есімің" autocomplete="given-name" maxlength="50" aria-label="Есіміңді енгіз" />
+              </div>
+            </div>
+
+            <!-- STEP 2: Level -->
+            <div class="step" id="step2" data-step="2">
+              <div class="step-q">Информатикадан өз деңгейіңді қалай бағалайсың?</div>
+              <div class="step-hint">Шынымызды айтайық — бұл дұрыс қарқынды таңдауға көмектеседі</div>
+              <div class="cards-grid" id="levelCards">
+                <div class="sel-card" data-value="beginner" onclick="selectCard(this,'level')">
+                  <div class="sel-card-icon">🟢</div>
+                  <div class="sel-card-body"><div class="sel-card-title">Бастаушы</div><div class="sel-card-sub">Тақырыптармен енді танысып жатырмын</div></div>
+                  <div class="sel-card-check" aria-hidden="true"><svg viewBox="0 0 18 18" fill="none"><path d="M4 9.5l3 3 7-8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                </div>
+                <div class="sel-card" data-value="medium" onclick="selectCard(this,'level')">
+                  <div class="sel-card-icon">🔵</div>
+                  <div class="sel-card-body"><div class="sel-card-title">Орташа</div><div class="sel-card-sub">Кейбір нәрселерді білемін, бірақ олқылықтар бар</div></div>
+                  <div class="sel-card-check" aria-hidden="true"><svg viewBox="0 0 18 18" fill="none"><path d="M4 9.5l3 3 7-8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                </div>
+                <div class="sel-card" data-value="advanced" onclick="selectCard(this,'level')">
+                  <div class="sel-card-icon">🟣</div>
+                  <div class="sel-card-body"><div class="sel-card-title">Озат</div><div class="sel-card-sub">Тақырыптардың көбін жақсы білемін</div></div>
+                  <div class="sel-card-check" aria-hidden="true"><svg viewBox="0 0 18 18" fill="none"><path d="M4 9.5l3 3 7-8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                </div>
+                <div class="sel-card" data-value="ready" onclick="selectCard(this,'level')">
+                  <div class="sel-card-icon">⚡</div>
+                  <div class="sel-card-body"><div class="sel-card-title">ҰБТ-ға дайынмын</div><div class="sel-card-sub">Тек білімімді бекіткім келеді</div></div>
+                  <div class="sel-card-check" aria-hidden="true"><svg viewBox="0 0 18 18" fill="none"><path d="M4 9.5l3 3 7-8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- STEP 3: Goal -->
+            <div class="step" id="step3" data-step="3">
+              <div class="step-q">ҰБТ-дан қандай нәтиже алғың келеді?</div>
+              <div class="step-hint">ҰБТ-да максималды балл — 140</div>
+              <div class="cards-grid" id="goalCards">
+                <div class="sel-card" data-value="70-90" onclick="selectCard(this,'goal')">
+                  <div class="sel-card-icon">🎯</div>
+                  <div class="sel-card-body"><div class="sel-card-title">70–90 балл</div><div class="sel-card-sub">Жақсы нәтиже</div></div>
+                  <div class="sel-card-check" aria-hidden="true"><svg viewBox="0 0 18 18" fill="none"><path d="M4 9.5l3 3 7-8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                </div>
+                <div class="sel-card" data-value="90-110" onclick="selectCard(this,'goal')">
+                  <div class="sel-card-icon">📈</div>
+                  <div class="sel-card-body"><div class="sel-card-title">90–110 балл</div><div class="sel-card-sub">Орташадан жоғары</div></div>
+                  <div class="sel-card-check" aria-hidden="true"><svg viewBox="0 0 18 18" fill="none"><path d="M4 9.5l3 3 7-8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                </div>
+                <div class="sel-card" data-value="110-130" onclick="selectCard(this,'goal')">
+                  <div class="sel-card-icon">🏆</div>
+                  <div class="sel-card-body"><div class="sel-card-title">110–130 балл</div><div class="sel-card-sub">Грантқа ұмтыламын</div></div>
+                  <div class="sel-card-check" aria-hidden="true"><svg viewBox="0 0 18 18" fill="none"><path d="M4 9.5l3 3 7-8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                </div>
+                <div class="sel-card" data-value="130-140" onclick="selectCard(this,'goal')">
+                  <div class="sel-card-icon">💎</div>
+                  <div class="sel-card-body"><div class="sel-card-title">130–140 балл</div><div class="sel-card-sub">Максималды нәтиже</div></div>
+                  <div class="sel-card-check" aria-hidden="true"><svg viewBox="0 0 18 18" fill="none"><path d="M4 9.5l3 3 7-8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- STEP 4: Difficult topics (multi-select) -->
+            <div class="step" id="step4" data-step="4">
+              <div class="step-q">Информатикада саған ең қиыны не?</div>
+              <div class="step-hint">Бірнеше тақырып таңдауға болады</div>
+              <div class="chips-grid" id="topicsChips">
+                <div class="chip-card" data-value="algorithms" onclick="toggleChip(this)"><span class="chip-icon">🔄</span><span>Алгоритмдер</span></div>
+                <div class="chip-card" data-value="numSystems" onclick="toggleChip(this)"><span class="chip-icon">🔢</span><span>Санау жүйелері</span></div>
+                <div class="chip-card" data-value="logic" onclick="toggleChip(this)"><span class="chip-icon">🧠</span><span>Логика</span></div>
+                <div class="chip-card" data-value="programming" onclick="toggleChip(this)"><span class="chip-icon">💻</span><span>Бағдарламалау</span></div>
+                <div class="chip-card" data-value="python" onclick="toggleChip(this)"><span class="chip-icon">🐍</span><span>Python</span></div>
+                <div class="chip-card" data-value="databases" onclick="toggleChip(this)"><span class="chip-icon">🗄️</span><span>Дерекқорлар</span></div>
+                <div class="chip-card" data-value="networks" onclick="toggleChip(this)"><span class="chip-icon">🌐</span><span>Компьютерлік желілер</span></div>
+                <div class="chip-card" data-value="architecture" onclick="toggleChip(this)"><span class="chip-icon">🖥️</span><span>ДК архитектурасы</span></div>
+              </div>
+            </div>
+
+            <!-- STEP 5: Time -->
+            <div class="step" id="step5" data-step="5">
+              <div class="step-q">Дайындыққа қанша уақыт бөлуге дайынсың?</div>
+              <div class="step-hint">Біз саған оңтайлы қарқынды таңдаймыз</div>
+              <div class="cards-grid" id="timeCards">
+                <div class="sel-card" data-value="15 мин" onclick="selectCard(this,'time')">
+                  <div class="sel-card-icon">⚡</div>
+                  <div class="sel-card-body"><div class="sel-card-title">Күніне 15–20 минут</div><div class="sel-card-sub">Күнделікті жылдам сабақтар</div></div>
+                  <div class="sel-card-check" aria-hidden="true"><svg viewBox="0 0 18 18" fill="none"><path d="M4 9.5l3 3 7-8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                </div>
+                <div class="sel-card" data-value="30 мин" onclick="selectCard(this,'time')">
+                  <div class="sel-card-icon">🕐</div>
+                  <div class="sel-card-body"><div class="sel-card-title">30 минут</div><div class="sel-card-sub">Тұрақты прогресс</div></div>
+                  <div class="sel-card-check" aria-hidden="true"><svg viewBox="0 0 18 18" fill="none"><path d="M4 9.5l3 3 7-8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                </div>
+                <div class="sel-card" data-value="1 сағат" onclick="selectCard(this,'time')">
+                  <div class="sel-card-icon">📚</div>
+                  <div class="sel-card-body"><div class="sel-card-title">1 сағат</div><div class="sel-card-sub">Белсенді дайындық</div></div>
+                  <div class="sel-card-check" aria-hidden="true"><svg viewBox="0 0 18 18" fill="none"><path d="M4 9.5l3 3 7-8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                </div>
+                <div class="sel-card" data-value="2+ сағат" onclick="selectCard(this,'time')">
+                  <div class="sel-card-icon">🔥</div>
+                  <div class="sel-card-body"><div class="sel-card-title">2+ сағат</div><div class="sel-card-sub">Қарқынды дайындық</div></div>
+                  <div class="sel-card-check" aria-hidden="true"><svg viewBox="0 0 18 18" fill="none"><path d="M4 9.5l3 3 7-8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- STEP 6: Learning style -->
+            <div class="step" id="step6" data-step="6">
+              <div class="step-q">Саған оқу қалай ыңғайлы?</div>
+              <div class="step-hint">Біз материалдың берілуін бейімдейміз</div>
+              <div class="cards-grid" id="styleCards">
+                <div class="sel-card" data-value="Қысқа сабақтар" onclick="selectCard(this,'style')">
+                  <div class="sel-card-icon">⚡</div>
+                  <div class="sel-card-body"><div class="sel-card-title">Қысқа сабақтар</div><div class="sel-card-sub">Жылдам әрі нақты</div></div>
+                  <div class="sel-card-check" aria-hidden="true"><svg viewBox="0 0 18 18" fill="none"><path d="M4 9.5l3 3 7-8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                </div>
+                <div class="sel-card" data-value="Практика" onclick="selectCard(this,'style')">
+                  <div class="sel-card-icon">🔨</div>
+                  <div class="sel-card-body"><div class="sel-card-title">Практикалық тапсырмалар</div><div class="sel-card-sub">Мысалдар арқылы үйрену</div></div>
+                  <div class="sel-card-check" aria-hidden="true"><svg viewBox="0 0 18 18" fill="none"><path d="M4 9.5l3 3 7-8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                </div>
+                <div class="sel-card" data-value="Тесттер" onclick="selectCard(this,'style')">
+                  <div class="sel-card-icon">📝</div>
+                  <div class="sel-card-body"><div class="sel-card-title">Тесттер</div><div class="sel-card-sub">Өзімді жиі тексеру</div></div>
+                  <div class="sel-card-check" aria-hidden="true"><svg viewBox="0 0 18 18" fill="none"><path d="M4 9.5l3 3 7-8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                </div>
+                <div class="sel-card" data-value="Барлығы аралас" onclick="selectCard(this,'style')">
+                  <div class="sel-card-icon">🎯</div>
+                  <div class="sel-card-body"><div class="sel-card-title">Барлығы аралас</div><div class="sel-card-sub">Әртүрлі тәсілмен</div></div>
+                  <div class="sel-card-check" aria-hidden="true"><svg viewBox="0 0 18 18" fill="none"><path d="M4 9.5l3 3 7-8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                </div>
+              </div>
+            </div>
+
+          </div><!-- /steps-viewport -->
+
+          <!-- Navigation -->
+          <div class="step-nav">
+            <button class="btn-back" id="backBtn" onclick="goBack()">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+              Артқа
+            </button>
+            <button class="btn-continue" id="continueBtn" onclick="goNext()" disabled>
+              Жалғастыру
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AUTH SCREEN -->
+  <div class="ob-screen" id="screenAuth">
+    <div class="bg-decor" aria-hidden="true">
+      <span class="decor-code d3">01</span>
+      <div class="grid-pattern"></div>
+    </div>
+    <div class="ob-two-col">
+      <div class="ob-left">
+        <div class="brand-pill">
+          <span class="brand-icon">&lt;/&gt;</span>
+          <span>IFX</span>
+        </div>
+        <h2 class="ob-hero-title" style="font-size:clamp(28px,4vw,42px)">Сәл қалды!</h2>
+        <p class="ob-hero-sub">Прогресс пен жеке жоспарыңды сақтау үшін аккаунт жаса.</p>
+      </div>
+      <div class="ob-right">
+        <div class="ob-card auth-card">
+          <div class="auth-icon">🔐</div>
+          <div class="auth-title">Аккаунт жасау</div>
+          <div class="auth-sub">Жылдам тіркелу — артық өрістерсіз</div>
+          <div class="input-group-ob">
+            <label class="ob-label" for="authEmail">Email</label>
+            <input type="email" class="ob-input" id="authEmail" placeholder="example@mail.com" autocomplete="email" />
+          </div>
+          <div class="input-group-ob password-wrap-ob">
+            <label class="ob-label" for="authPassword">Құпиясөз</label>
+            <input type="password" class="ob-input" id="authPassword" placeholder="Кем дегенде 6 таңба" autocomplete="new-password" />
+            <button type="button" class="pw-toggle" id="pwToggle" onclick="togglePw()" aria-label="Показать пароль"><span id="pwEye">👁</span></button>
+          </div>
+          <button class="btn-primary-ob" id="authBtn" onclick="handleAuth()">Аккаунт жасау →</button>
+          <div class="login-row" style="margin-top:16px;">
+            Аккаунтың бар ма? <button class="link-btn-ob" onclick="switchToLogin()">Кіру</button>
+          </div>
+          <button class="btn-back" style="margin-top:8px;width:100%;justify-content:center;" onclick="goBackToOnboarding()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            Жауаптарды өзгерту
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOGIN MODAL -->
+  <div class="modal-overlay" id="loginModal" aria-hidden="true">
+    <div class="login-modal" role="dialog" aria-modal="true" aria-labelledby="loginModalTitle">
+      <button class="modal-x" onclick="closeLoginModal()" aria-label="Закрыть">&times;</button>
+      <div class="auth-icon">👋</div>
+      <div class="auth-title" id="loginModalTitle">InFormatX-ке кіру</div>
+      <div class="auth-sub">Сені қайта көргенімізге қуаныштымыз!</div>
+      <div class="input-group-ob">
+        <label class="ob-label" for="loginEmail">Email</label>
+        <input type="email" class="ob-input" id="loginEmail" placeholder="example@mail.com" autocomplete="email" />
+      </div>
+      <div class="input-group-ob password-wrap-ob">
+        <label class="ob-label" for="loginPassword">Құпиясөз</label>
+        <input type="password" class="ob-input" id="loginPassword" placeholder="Сенің құпиясөзің" autocomplete="current-password" />
+        <button type="button" class="pw-toggle" id="loginPwToggle" onclick="toggleLoginPw()" aria-label="Показать пароль"><span id="loginPwEye">👁</span></button>
+      </div>
+      <button class="btn-primary-ob" id="loginBtn" onclick="handleLogin()">Кіру →</button>
+    </div>
+  </div>
+
+  <!-- SUCCESS SCREEN -->
+  <div class="ob-screen" id="screenSuccess">
+    <div class="bg-decor" aria-hidden="true">
+      <span class="decor-code d1">&lt;/&gt;</span>
+      <span class="decor-code d3">01</span>
+      <div class="grid-pattern"></div>
+    </div>
+    <div class="success-center">
+      <div class="success-confetti" aria-hidden="true">🎉</div>
+      <h2 class="success-title" id="successTitle">Керемет!</h2>
+      <p class="success-sub">Біз сенің ҰБТ-ға дайындалу жеке жоспарыңды дайындадық.</p>
+      <div class="summary-card">
+        <div class="summary-row">
+          <span class="summary-icon">📊</span>
+          <span class="summary-key">Деңгей</span>
+          <span class="summary-val" id="sumLevel">—</span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-icon">🎯</span>
+          <span class="summary-key">ҰБТ мақсаты</span>
+          <span class="summary-val" id="sumGoal">—</span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-icon">⏱</span>
+          <span class="summary-key">Күніне уақыт</span>
+          <span class="summary-val" id="sumTime">—</span>
+        </div>
+      </div>
+      <button class="btn-primary-ob btn-success" onclick="goToHome()">
+        Оқуды бастау
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="toast-wrap" id="toastWrap" aria-live="polite" aria-atomic="true"></div>
+
+  <script src="index.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="kk" data-theme="light">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>InFormatX | Информатика платформасы</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <link rel="stylesheet" href="home.css" />
+  <style>
+    .grid-2-col-responsive {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    @media (max-width: 600px) {
+      .grid-2-col-responsive {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .skeleton-loader {
+      background: linear-gradient(90deg, #F1F5F9 25%, #E2E8F0 50%, #F1F5F9 75%);
+      background-size: 200% 100%;
+      animation: skeleton-loading 1.5s infinite;
+      border-radius: 14px;
+      min-height: 80px;
+    }
+
+    @keyframes skeleton-loading {
+      0% {
+        background-position: 200% 0;
+      }
+
+      100% {
+        background-position: -200% 0;
+      }
+    }
+  </style>
+</head>
+
+<body class="role-student">
+  <div class="app-container">
+    <header class="header">
+      <div class="brand">
+        <button class="menu-btn" onclick="toggleMenu()" style="padding:0; margin-right:4px;">
+          <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+        <div class="brand-mark">&lt;/&gt;</div>
+        <div style="display:flex; flex-direction:column;">
+          <span class="brand-name">Info<span>X</span></span>
+        </div>
+      </div>
+      <div style="display: flex; gap: 8px; align-items: center;">
+        <div class="coins-display" onclick="setTab('shop')" id="coinsDisplay">
+          <span class="coin-icon" id="coinCount">◆ 0</span>
+        </div>
+        <button class="menu-btn" onclick="toggleNotifications()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+          </svg>
+          <span class="notif-badge" id="notifBadge" style="display: none;"></span>
+        </button>
+      </div>
+    </header>
+
+    <div class="notif-panel" id="notifPanel">
+      <div class="notif-header">
+        <div class="h3">Хабарландырулар</div>
+        <button class="link-btn" onclick="clearNotifications()">Тазалау</button>
+      </div>
+      <div class="notif-list" id="notifList">
+        <div style="text-align: center; padding: 40px 20px; opacity: 0.5;">
+          <div class="txt-sm">Хабарландырулар жоқ</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HOME TAB -->
+    <div id="tab-home" class="tab-content active">
+      <div class="hero">
+        <div class="greeting">
+          <div class="h1">Сәлем, Азамат 👋</div>
+          <div class="txt-sm sub">Бүгінгі мақсат: Алгоритмдер негізін аяқтау</div>
+          <div style="margin-top: 10px;">
+            <span class="streak-badge">
+              🔥 <span id="streakDays">3</span> күн streak
+            </span>
+          </div>
+        </div>
+        <div class="stats-row">
+          <div class="stat-item">
+            <div class="stat-val">62<span style="font-size:16px; opacity:0.5">%</span></div>
+            <div class="stat-label">ҰБТ дайындық</div>
+            <div class="prog-track">
+              <div class="prog-fill" style="width: 62%"></div>
+            </div>
+          </div>
+          <div class="stat-item" style="align-items: center; text-align: center;">
+            <div class="stat-val">88%</div>
+            <div class="stat-label">Дәлдік</div>
+          </div>
+          <div class="stat-item" style="align-items: flex-end; text-align: right;">
+            <div class="stat-val">4.5сағ</div>
+            <div class="stat-label">Апта</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="card next-card">
+          <div class="tag">Келесі қадам</div>
+          <div class="h2" style="margin-bottom:6px;">Python негіздері • 8-сынып</div>
+          <div class="txt-sm" style="opacity:0.8;">Тақырып: айнымалылар, циклдар және шарттар</div>
+          <button class="cta-btn" onclick="startLesson()">
+            <svg viewBox="0 0 24 24">
+              <path d="M5 3l14 9-14 9V3z" />
+            </svg>
+            <span>Оқуды жалғастыру</span>
+          </button>
+        </div>
+        <div class="card ent-card">
+          <div style="position:relative; z-index:1;">
+            <div class="tag">Сынама ҰБТ</div>
+            <div class="h2" style="margin-bottom:6px;">Информатика тесті</div>
+            <div class="txt-sm" style="opacity:0.8; margin-bottom: 12px;">ҰБТ форматындағы тест тапсырып, деңгейіңді
+              анықта.</div>
+            <button class="cta-btn ent-btn" onclick=location.href="quiz.html">
+              <svg viewBox="0 0 24 24">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+                <polyline points="10 9 9 9 8 9"></polyline>
+              </svg>
+              <span>Тестті бастау</span>
+            </button>
+          </div>
+        </div>
+        <div class="section-head">
+          <div class="h3">Тақырыптар</div>
+          <div class="link-btn" onclick="setTab('courses')">Барлығы</div>
+        </div>
+        <div class="grid-3" id="topicsGrid">
+          <div class="sub-card" onclick="openTopic('kinematics')">
+            <span class="topic-emoji">🔀</span>
+            <div class="txt-xs" style="position: relative; z-index: 1;">Алгоритмдер</div>
+          </div>
+          <div class="sub-card" onclick="openTopic('electricity')">
+            <span class="topic-emoji">🐍</span>
+            <div class="txt-xs" style="position: relative; z-index: 1;">Python</div>
+          </div>
+          <div class="sub-card locked" onclick="showToast('Логика курсын сатып алыңыз!', '🔒')">
+            <span class="topic-emoji">🧠</span>
+            <div class="txt-xs" style="position: relative; z-index: 1;">Логика</div>
+          </div>
+          <div class="sub-card locked" onclick="showToast('Сан жүйелері курсын сатып алыңыз!', '🔒')">
+            <span class="topic-emoji">🔢</span>
+            <div class="txt-xs" style="position: relative; z-index: 1;">Сан жүйелері</div>
+          </div>
+          <div class="sub-card locked" onclick="showToast('Желілер курсын сатып алыңыз!', '🔒')">
+            <span class="topic-emoji">🌐</span>
+            <div class="txt-xs" style="position: relative; z-index: 1;">Желілер</div>
+          </div>
+          <div class="sub-card locked" onclick="showToast('Деректер қорын сатып алыңыз!', '🔒')">
+            <span class="topic-emoji">🗄️</span>
+            <div class="txt-xs" style="position: relative; z-index: 1;">ДҚ</div>
+          </div>
+        </div>
+        <div class="section-head">
+          <div class="h3">Практикалық тесттер</div>
+          <div class="link-btn" onclick="showToast('Барлық тесттер осында', 'ℹ️')">Барлығы</div>
+        </div>
+        <div id="testsRoot" class="grid-2-col-responsive">
+          <div class="list-item skeleton-loader"></div>
+          <div class="list-item skeleton-loader"></div>
+        </div>
+      </div>
+    </div>
+
+    <canvas id="confetti"
+      style="position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:9999;"></canvas>
+
+    <!-- COURSES TAB -->
+    <div id="tab-courses" class="tab-content" style="padding-bottom: 60px;">
+      <div style="text-align: center; margin-bottom: 20px;">
+        <div class="h3">Оқыту</div>
+        <div class="txt-sm">Тақырыптар бойынша курстар</div>
+      </div>
+      <input class="course-search" id="courseSearch" placeholder="Тақырып/курс іздеу..." />
+      <div class="course-wrap" id="coursesRoot"></div>
+    </div>
+
+    <!-- SHOP TAB -->
+    <div id="tab-shop" class="tab-content" style="padding-bottom: 60px;">
+      <div style="text-align: center; margin-bottom: 20px;">
+        <div class="h2">Дүкен</div>
+        <div class="txt-sm" style="opacity: 0.8;">Биттерді премиум курстарға жұмсаңыз</div>
+        <div style="margin-top: 12px; display: flex; justify-content: center; align-items: center; gap: 8px;">
+          <span style="font-size: 22px; color: var(--primary); font-family: var(--font-mono);">◆</span>
+          <div class="h1" id="shopCoins">0</div>
+          <div class="txt-sm">бит</div>
+        </div>
+      </div>
+      <div id="shopItems"></div>
+    </div>
+
+    <!-- CHAT TAB -->
+    <div id="tab-chat" class="tab-content" style="padding-bottom: 60px;">
+      <div style="text-align: center; margin-bottom: 20px;">
+        <div class="h3">AI Көмекші</div>
+        <div class="txt-sm">Информатикадан кез келген сұрақ</div>
+      </div>
+      <div class="chat-container" id="chatContainer">
+        <div class="chat-bubble chat-ai">
+          Сәлем, Азамат! 👋 Мен сенің информатика пәнінен көмекшіңмін. <br><br>
+          Алгоритм, Python немесе логика бойынша сұрағың болса — маған жаз!
+        </div>
+      </div>
+      <div class="chat-input-area">
+        <input type="text" class="chat-input" id="chatInput" placeholder="Сұрағыңызды жазыңыз...">
+        <button class="send-btn" id="sendBtn" onclick="sendMessage()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <line x1="22" y1="2" x2="11" y2="13"></line>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- PROFILE TAB -->
+    <div id="tab-profile" class="tab-content" style="padding-bottom: 60px;">
+      <div style="text-align:center; margin-bottom: 14px;">
+        <div class="h3">Профиль</div>
+        <div class="txt-sm">Прогресс пен әдеттер</div>
+      </div>
+      <div class="profile-card">
+        <div class="profile-top">
+          <div class="avatar" id="profileAvatar">A</div>
+          <div style="display:flex; flex-direction:column;">
+            <div class="h2" style="margin:0;" id="profileName">Азамат</div>
+            <div class="txt-sm" id="profileRole">Оқушы • 8-сынып</div>
+          </div>
+        </div>
+        <div class="profile-stats">
+          <div class="pstat">
+            <div class="v" id="pProgress">62%</div>
+            <div class="l">Жалпы прогресс</div>
+          </div>
+          <div class="pstat">
+            <div class="v" id="pAccuracy">88%</div>
+            <div class="l">Дәлдік</div>
+          </div>
+          <div class="pstat">
+            <div class="v" style="display: flex; align-items: center; gap: 4px;">
+              <span id="profileCoins">0</span>
+              <span style="font-size: 14px; color: var(--primary);">◆</span>
+            </div>
+            <div class="l">Бит</div>
+          </div>
+        </div>
+        <div style="margin-top: 14px;">
+          <div class="txt-xs" style="margin-bottom:6px;">Апталық мақсат</div>
+          <div class="mini-track">
+            <div class="mini-fill" id="weeklyFill" style="width: 45%"></div>
+          </div>
+          <div class="txt-sm" style="margin-top:8px; opacity:0.85;" id="weeklyText">4.5 сағ / 10 сағ</div>
+        </div>
+      </div>
+      <div class="section-head">
+        <div class="h3">Курстар прогресі</div>
+        <div class="link-btn" onclick="setTab('home')">Басты бет</div>
+      </div>
+      <div id="profileCourses"></div>
+    </div>
+  </div>
+
+  <nav class="nav-island">
+    <div class="nav-btn active" id="nav-home" onclick="setTab('home')">
+      <svg viewBox="0 0 24 24">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+      </svg>
+    </div>
+    <div class="nav-btn" id="nav-courses" onclick="setTab('courses')">
+      <svg viewBox="0 0 24 24">
+        <path d="M22 8l-10-5L2 8l10 5 10-5z"></path>
+        <path d="M6 10.5V16c0 1.1 2.7 2 6 2s6-.9 6-2v-5.5"></path>
+      </svg>
+    </div>
+    <div class="nav-fab" onclick="primaryAction()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="12" y1="5" x2="12" y2="19"></line>
+        <line x1="5" y1="12" x2="19" y2="12"></line>
+      </svg>
+    </div>
+    <div class="nav-btn" id="nav-shop" onclick="setTab('shop')">
+      <svg viewBox="0 0 24 24">
+        <circle cx="9" cy="21" r="1"></circle>
+        <circle cx="20" cy="21" r="1"></circle>
+        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+      </svg>
+    </div>
+    <div class="nav-btn" id="nav-profile" onclick="setTab('profile')">
+      <svg viewBox="0 0 24 24">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+        <circle cx="12" cy="7" r="4"></circle>
+      </svg>
+    </div>
+  </nav>
+
+  <div class="sidebar-overlay" id="overlay" onclick="toggleMenu()"></div>
+  <aside class="sidebar" id="sidebar">
+    <div
+      style="display: flex; flex-direction: column; align-items: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid var(--border);">
+      <div id="sidebarAvatar"
+        style="width: 70px; height: 70px; border-radius: 50%; background: var(--primary-dim); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 28px; font-weight: 800; margin-bottom: 12px; border: 2px solid #BFDBFE;">
+        A
+      </div>
+      <div class="h2" id="sidebarName">Азамат</div>
+      <div class="txt-sm" id="sidebarRole">Оқушы • 8-сынып</div>
+      <div style="margin-top: 10px; display: flex; align-items: center; gap: 6px;">
+        <span style="font-size: 16px; color: var(--primary); font-family: var(--font-mono);">◆</span>
+        <span class="h3" id="sidebarCoins">0</span>
+      </div>
+    </div>
+    <ul style="list-style: none; padding: 0; width: 100%; display: flex; flex-direction: column; gap: 8px;">
+      <li class="menu-item" onclick="setTab('home'); toggleMenu();">
+        <div class="icon-box">
+          <svg viewBox="0 0 24 24">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+          </svg>
+        </div>
+        <span>Басты бет</span>
+      </li>
+      <li class="menu-item" onclick="setTab('courses'); toggleMenu();">
+        <div class="icon-box">
+          <svg viewBox="0 0 24 24">
+            <path d="M22 8l-10-5L2 8l10 5 10-5z"></path>
+            <path d="M6 10.5V16c0 1.1 2.7 2 6 2s6-.9 6-2v-5.5"></path>
+          </svg>
+        </div>
+        <span>Оқыту</span>
+      </li>
+      <li class="menu-item" onclick="setTab('shop'); toggleMenu();">
+        <div class="icon-box">
+          <svg viewBox="0 0 24 24">
+            <circle cx="9" cy="21" r="1"></circle>
+            <circle cx="20" cy="21" r="1"></circle>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+          </svg>
+        </div>
+        <span>Дүкен</span>
+      </li>
+      <li class="menu-item" onclick="setTab('profile'); toggleMenu();">
+        <div class="icon-box">
+          <svg viewBox="0 0 24 24">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+        </div>
+        <span>Профиль</span>
+      </li>
+      <li class="menu-item" onclick="showToast('Баптаулар әзірленуде...', '⚙️')">
+        <div class="icon-box">
+          <svg viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path
+              d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
+            </path>
+          </svg>
+        </div>
+        <span>Баптаулар</span>
+      </li>
+    </ul>
+    <div style="margin-top: auto; opacity: 0.4; text-align: center; font-size: 11px; font-family: var(--font-mono);">
+      InFormatX v1.5 • ҰБТ Информатика
+    </div>
+  </aside>
+
+  <div id="toast" class="toast">
+    <span class="toast-icon" id="toastIcon"></span>
+    <span id="toastText">OK</span>
+  </div>
+
+  <div class="confirm-modal" id="confirmModal">
+    <div class="confirm-box">
+      <div class="confirm-icon">🛒</div>
+      <div class="h2" style="text-align: center; margin-bottom: 8px;" id="confirmTitle">Сатып алу</div>
+      <div class="txt-sm" style="text-align: center; opacity: 0.8;" id="confirmText">Бұл курсты сатып алғыңыз келе ме?
+      </div>
+      <div class="confirm-actions">
+        <button class="confirm-btn cancel">Жоқ</button>
+        <button class="confirm-btn confirm">Сатып алу</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="float-chat-btn" onclick="openFloatChat()">
+    <svg viewBox="0 0 24 24">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+    </svg>
+  </div>
+
+  <div class="float-chat-modal" id="floatChatModal">
+    <div class="float-chat-window">
+      <div class="float-chat-header">
+        <div>
+          <div class="h3">AI Көмекші</div>
+          <div class="txt-sm">Информатикадан сұра</div>
+        </div>
+        <button class="close-modal-btn" onclick="closeFloatChat()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <div class="float-chat-body" id="floatChatBody">
+        <div class="chat-bubble chat-ai">
+          👋 Сәлем! Информатикадан не сұрағың бар?
+        </div>
+      </div>
+      <div class="float-chat-input">
+        <input type="text" id="floatChatInput" placeholder="Сұрақ жазыңыз..." />
+        <button class="float-send-btn" onclick="sendFloatMessage()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="22" y1="2" x2="11" y2="13"></line>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="course-modal" id="courseModal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="course-content-window">
+      <div class="course-header">
+        <div>
+          <div class="h2" id="courseTitle">Курс атауы</div>
+          <div class="txt-sm" id="courseLevel">8-сынып</div>
+        </div>
+        <button class="close-modal-btn" type="button" aria-label="Жабу" onclick="closeCourseModal()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <div class="video-section">
+        <div class="h3" style="margin-bottom: 12px; color: var(--text-main);">Видео сабақ</div>
+        <div class="video-player" id="videoPlayer"></div>
+      </div>
+
+      <div class="course-body" id="courseBodyContent"></div>
+
+      <div class="achievement-popup" id="achievementPopup">
+        <div class="achievement-icon">🏆</div>
+        <div class="achievement-text">
+          <h4 id="achievementTitle">Жаңа жетістік!</h4>
+          <p id="achievementDesc">Сіз жаңа деңгейге жеттіңіз!</p>
+        </div>
+      </div>
+
+      <script src="home.js"></script>
+</body>
+
+</html>
