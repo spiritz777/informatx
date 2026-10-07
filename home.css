@@ -1165,3 +1165,140 @@ body.modal-open { overflow: hidden; }
   .course-body { padding-left: 24px; padding-right: 24px; }
   .app-container { max-width: 720px; }
 }
+
+/* ================== DYNAMIC STATS & HISTORY STYLES ================== */
+.stat-grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-top: 14px;
+}
+@media (max-width: 600px) {
+  .stat-grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.metric-card {
+  background: var(--surface-highlight);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 12px 10px;
+  text-align: center;
+  transition: transform 0.15s ease;
+}
+.metric-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--primary);
+}
+.metric-val {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--navy);
+  line-height: 1.2;
+  margin-bottom: 2px;
+}
+.metric-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-sec);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.topic-stat-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 12px 14px;
+  margin-bottom: 8px;
+}
+.topic-stat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+.topic-stat-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--navy);
+}
+.topic-stat-meta {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.attempt-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  margin-bottom: 8px;
+  transition: all 0.15s ease;
+}
+.attempt-item:hover {
+  border-color: var(--primary);
+  background: var(--surface-highlight);
+}
+.attempt-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+.attempt-icon {
+  font-size: 22px;
+  flex-shrink: 0;
+}
+.attempt-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--navy);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.attempt-date {
+  font-size: 11px;
+  color: var(--text-sec);
+  margin-top: 2px;
+}
+.attempt-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.badge-score {
+  font-size: 12px;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 99px;
+  background: rgba(37, 99, 235, 0.1);
+  color: var(--primary);
+}
+.badge-score.good {
+  background: rgba(16, 185, 129, 0.12);
+  color: var(--success);
+}
+.badge-score.low {
+  background: rgba(239, 68, 68, 0.12);
+  color: var(--danger);
+}
+
+.test-card-badge {
+  font-size: 10px;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 6px;
+  background: rgba(16, 185, 129, 0.12);
+  color: var(--success);
+  margin-top: 4px;
+  display: inline-block;
+}
+

@@ -4,8 +4,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>InfoX | ЕНТ Информатика сынамасы</title>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <title>InfoX | Информатика сынамасы және квиздер</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap"
+    rel="stylesheet">
+  <script src="quiz-data.js"></script>
 
   <style>
     /* CORE THEME VARIABLES */
@@ -39,10 +42,10 @@
       background: var(--bg-body);
       background-image: var(--bg-gradient);
       color: var(--text-main);
-      height: 100vh;
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
-      overflow: hidden;
+      overflow-x: hidden;
     }
 
     /* GLASSMORPHISM CARD UTILITY */
@@ -59,33 +62,63 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 20px 24px;
+      padding: 16px 20px;
       z-index: 10;
+      max-width: 640px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .brand-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
 
     .brand-logo {
       font-weight: 800;
       font-size: 18px;
       letter-spacing: -0.5px;
+      cursor: pointer;
     }
 
-    .close-btn {
-      background: rgba(255, 255, 255, 0.1);
-      border: none;
-      width: 36px;
-      height: 36px;
+    .header-quiz-title {
+      font-size: 13px;
+      color: var(--text-sec);
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 200px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .icon-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--surface-border);
+      width: 38px;
+      height: 38px;
       border-radius: 50%;
       color: var(--text-main);
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      transition: 0.2s;
+      transition: all 0.2s ease;
     }
 
-    .close-btn:active {
-      transform: scale(0.9);
-      background: rgba(255, 255, 255, 0.2);
+    .icon-btn:hover {
+      background: rgba(255, 255, 255, 0.16);
+      transform: scale(1.04);
+    }
+
+    .icon-btn:active {
+      transform: scale(0.92);
     }
 
     /* QUIZ CONTAINER */
@@ -94,7 +127,7 @@
       display: flex;
       flex-direction: column;
       padding: 0 20px 40px 20px;
-      max-width: 600px;
+      max-width: 640px;
       margin: 0 auto;
       width: 100%;
       position: relative;
@@ -102,10 +135,16 @@
 
     /* PROGRESS HEADER */
     .progress-area {
-      margin-bottom: 20px;
+      margin-bottom: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .progress-meta {
       display: flex;
       justify-content: space-between;
-      align-items: flex-end;
+      align-items: center;
     }
 
     .q-counter {
@@ -113,45 +152,68 @@
       color: var(--text-sec);
       font-weight: 600;
       text-transform: uppercase;
-      letter-spacing: 1px;
+      letter-spacing: 0.8px;
     }
 
     .score-badge {
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 700;
       color: var(--primary);
       background: rgba(0, 242, 160, 0.1);
+      border: 1px solid rgba(0, 242, 160, 0.25);
       padding: 4px 12px;
       border-radius: 100px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .prog-track {
+      width: 100%;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+
+    .prog-fill {
+      height: 100%;
+      background: var(--ai-gradient);
+      width: 0%;
+      border-radius: 99px;
+      transition: width 0.4s ease;
     }
 
     /* QUESTION CARD */
     .question-card {
-      padding: 30px 20px;
+      padding: 26px 20px;
       text-align: center;
-      margin-bottom: 24px;
-      min-height: 180px;
+      margin-bottom: 20px;
+      min-height: 170px;
       display: flex;
       align-items: center;
       justify-content: center;
       flex-direction: column;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
     }
 
     .q-text {
-      font-size: 18px;
+      font-size: 17px;
       font-weight: 700;
       line-height: 1.5;
-      animation: fadeUp 0.4s ease-out;
+      animation: fadeUp 0.35s ease-out;
     }
 
     .topic-tag {
       font-size: 12px;
       color: var(--accent);
-      margin-bottom: 10px;
+      margin-bottom: 12px;
       text-transform: uppercase;
       letter-spacing: 1px;
       font-weight: 700;
+      background: rgba(0, 224, 255, 0.1);
+      padding: 4px 10px;
+      border-radius: 8px;
     }
 
     /* OPTIONS GRID */
@@ -165,7 +227,7 @@
     .option-btn {
       background: rgba(255, 255, 255, 0.03);
       border: 1px solid var(--surface-border);
-      padding: 18px 20px;
+      padding: 16px 18px;
       border-radius: 16px;
       color: var(--text-main);
       font-size: 15px;
@@ -174,15 +236,21 @@
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: 14px;
       transition: all 0.2s ease;
       position: relative;
       text-align: left;
     }
 
+    .option-btn:hover {
+      background: rgba(255, 255, 255, 0.07);
+      border-color: rgba(255, 255, 255, 0.2);
+      transform: translateY(-1px);
+    }
+
     .option-btn:active {
       transform: scale(0.98);
-      background: rgba(255, 255, 255, 0.06);
+      background: rgba(255, 255, 255, 0.09);
     }
 
     .opt-letter {
@@ -193,7 +261,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 800;
       color: var(--text-sec);
       flex-shrink: 0;
@@ -207,9 +275,9 @@
 
     /* STATES */
     .correct-state {
-      background: rgba(39, 174, 96, 0.2) !important;
+      background: rgba(39, 174, 96, 0.22) !important;
       border-color: var(--success) !important;
-      box-shadow: 0 0 20px rgba(39, 174, 96, 0.2);
+      box-shadow: 0 0 20px rgba(39, 174, 96, 0.3);
     }
 
     .correct-state .opt-letter {
@@ -218,9 +286,9 @@
     }
 
     .wrong-state {
-      background: rgba(235, 87, 87, 0.15) !important;
+      background: rgba(235, 87, 87, 0.2) !important;
       border-color: var(--danger) !important;
-      opacity: 0.6;
+      opacity: 0.75;
     }
 
     .wrong-state .opt-letter {
@@ -232,20 +300,29 @@
       pointer-events: none;
     }
 
+    /* EMPTY / ERROR STATE */
+    .empty-state-card {
+      text-align: center;
+      padding: 40px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+    }
+
     /* RESULTS SCREEN */
     .result-overlay {
       position: fixed;
       inset: 0;
       background: var(--bg-body);
       background-image: var(--bg-gradient);
-      z-index: 20;
+      z-index: 50;
       display: none;
       flex-direction: column;
       align-items: center;
-      padding: 40px 20px;
-      animation: fadeIn 0.5s;
+      padding: 30px 20px 50px 20px;
+      animation: fadeIn 0.4s ease;
       overflow-y: auto;
-      /* Allow scrolling for analysis */
     }
 
     .res-header {
@@ -253,38 +330,77 @@
       margin-bottom: 20px;
     }
 
-    .main-score {
+    .res-badge {
       font-size: 48px;
-      font-weight: 800;
+      margin-bottom: 10px;
+      line-height: 1;
+    }
+
+    .main-score {
+      font-size: 42px;
+      font-weight: 900;
       color: var(--text-main);
       line-height: 1;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
+      background: var(--ai-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .main-score-sub {
+      font-size: 14px;
+      color: var(--text-sec);
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .score-pills {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      margin-bottom: 12px;
+    }
+
+    .score-pill {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--surface-border);
+      border-radius: 99px;
+      padding: 4px 12px;
+      font-size: 13px;
+      font-weight: 700;
     }
 
     .feedback-txt {
-      color: var(--text-sec);
-      font-size: 16px;
-      margin-bottom: 20px;
+      color: var(--text-main);
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.4;
+      max-width: 380px;
+      margin: 0 auto;
     }
 
     /* ANALYSIS SECTION */
     .analysis-card {
       width: 100%;
-      max-width: 340px;
+      max-width: 380px;
       background: rgba(255, 255, 255, 0.03);
       border: 1px solid var(--surface-border);
       border-radius: 20px;
-      padding: 20px;
+      padding: 18px;
       margin-bottom: 20px;
       text-align: left;
     }
 
     .analysis-title {
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 700;
       color: var(--text-sec);
       margin-bottom: 12px;
       text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
     .weak-item {
@@ -303,13 +419,13 @@
     }
 
     .w-name {
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 600;
       color: #fff;
     }
 
     .w-val {
-      font-size: 14px;
+      font-size: 13px;
       color: var(--danger);
       font-weight: 700;
     }
@@ -317,12 +433,12 @@
     /* BUTTONS */
     .action-btn {
       width: 100%;
-      max-width: 340px;
-      padding: 16px;
+      max-width: 380px;
+      padding: 15px;
       border-radius: 14px;
       border: none;
       font-weight: 700;
-      font-size: 15px;
+      font-size: 14px;
       font-family: var(--font);
       cursor: pointer;
       margin-bottom: 10px;
@@ -330,7 +446,9 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
-      transition: transform 0.2s;
+      transition: all 0.2s ease;
+      text-decoration: none;
+      color: inherit;
     }
 
     .action-btn:active {
@@ -340,12 +458,11 @@
     .btn-ai {
       background: var(--ai-gradient);
       color: #000;
-      box-shadow: 0 10px 30px rgba(0, 224, 255, 0.2);
+      box-shadow: 0 10px 30px rgba(0, 224, 255, 0.25);
       position: relative;
       overflow: hidden;
     }
 
-    /* Shine effect */
     .btn-ai::after {
       content: '';
       position: absolute;
@@ -363,9 +480,77 @@
       border: 1px solid var(--surface-border);
     }
 
+    .btn-primary:hover {
+      background: rgba(255, 255, 255, 0.18);
+    }
+
     .btn-sec {
       background: transparent;
       color: var(--text-sec);
+    }
+
+    .btn-sec:hover {
+      color: #fff;
+    }
+
+    /* QUIZ PICKER MODAL */
+    .quiz-picker-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(10px);
+      z-index: 100;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .quiz-picker-modal.active {
+      display: flex;
+    }
+
+    .quiz-picker-card {
+      width: 100%;
+      max-width: 480px;
+      max-height: 85vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      border-radius: 24px;
+    }
+
+    .quiz-picker-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 20px 14px 20px;
+      border-bottom: 1px solid var(--surface-border);
+    }
+
+    .quiz-picker-list {
+      padding: 14px 20px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .picker-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 14px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--surface-border);
+      border-radius: 14px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .picker-item:hover {
+      background: rgba(255, 255, 255, 0.09);
+      border-color: var(--primary);
     }
 
     @keyframes shine {
@@ -414,14 +599,14 @@
       backdrop-filter: blur(10px);
       border: 1px solid var(--primary);
       color: var(--primary);
-      padding: 12px 24px;
+      padding: 10px 20px;
       border-radius: 100px;
       font-weight: 600;
-      font-size: 14px;
+      font-size: 13px;
       opacity: 0;
       pointer-events: none;
       transition: 0.3s;
-      z-index: 100;
+      z-index: 200;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
       display: flex;
       align-items: center;
@@ -430,7 +615,7 @@
 
     #toast.show {
       opacity: 1;
-      top: 40px;
+      top: 30px;
     }
 
     /* COURSE LOADING MODAL */
@@ -438,7 +623,7 @@
       position: fixed;
       inset: 0;
       background: rgba(0, 0, 0, 0.9);
-      z-index: 30;
+      z-index: 60;
       display: none;
       align-items: center;
       justify-content: center;
@@ -446,13 +631,13 @@
     }
 
     .loader-spinner {
-      width: 50px;
-      height: 50px;
+      width: 48px;
+      height: 48px;
       border: 4px solid var(--surface-border);
       border-top-color: var(--accent);
       border-radius: 50%;
       animation: spin 1s linear infinite;
-      margin-bottom: 20px;
+      margin-bottom: 16px;
     }
 
     @keyframes spin {
@@ -466,159 +651,250 @@
 <body>
 
   <div id="toast">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
       <polyline points="20 6 9 17 4 12"></polyline>
     </svg>
     <span>Дұрыс жауап!</span>
   </div>
 
+  <!-- TOP BAR -->
   <div class="top-bar">
-    <div class="brand-logo" style="font-family:var(--font-mono)">Info<span style="color:var(--primary)">X</span></div>
-    <button class="close-btn" onclick="history.back()">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <line x1="18" y1="6" x2="6" y2="18"></line>
-        <line x1="6" y1="6" x2="18" y2="18"></line>
-      </svg>
-    </button>
+    <div class="brand-wrap">
+      <div class="brand-logo" onclick="goBackOrHome()" style="font-family:var(--font-mono)">
+        Info<span style="color:var(--primary)">X</span>
+      </div>
+      <div class="header-quiz-title" id="headerQuizTitle">ҰБТ сынамасы</div>
+    </div>
+    <div class="header-actions">
+      <button class="icon-btn" onclick="openQuizPicker()" title="Басқа квиз таңдау" aria-label="Барлық квиздер">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="7" height="7"></rect>
+          <rect x="14" y="3" width="7" height="7"></rect>
+          <rect x="14" y="14" width="7" height="7"></rect>
+          <rect x="3" y="14" width="7" height="7"></rect>
+        </svg>
+      </button>
+      <button class="icon-btn" onclick="goBackOrHome()" title="Шығу" aria-label="Шығу">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
   </div>
 
+  <!-- MAIN QUIZ LAYOUT -->
   <div class="quiz-layout" id="quizUI">
     <div class="progress-area">
-      <div class="q-counter">Сұрақ <span id="currQ" style="color:var(--text-main); font-size:16px;">1</span> / 10</div>
-      <div class="score-badge"><span id="scoreVal">0</span> XP</div>
+      <div class="progress-meta">
+        <div class="q-counter">
+          Сұрақ <span id="currQ" style="color:var(--text-main); font-size:16px;">1</span> / <span id="totalQ">10</span>
+        </div>
+        <div class="score-badge">
+          <span>⚡</span>
+          <span id="scoreVal">0</span> XP
+        </div>
+      </div>
+      <div class="prog-track">
+        <div class="prog-fill" id="progFill"></div>
+      </div>
     </div>
 
-    <div class="glass-panel question-card">
-      <div class="topic-tag" id="topicTag">Кинематика</div>
-      <div class="q-text" id="questionText">Жүктелуде...</div>
+    <div class="glass-panel question-card" id="questionCard">
+      <div class="topic-tag" id="topicTag">Жүктелуде...</div>
+      <div class="q-text" id="questionText">Сұрақтар жүктелуде...</div>
     </div>
 
     <div class="options-grid" id="optionsGrid"></div>
   </div>
 
+  <!-- RESULT OVERLAY -->
   <div class="result-overlay" id="resultUI">
     <div class="res-header">
-      <div class="main-score" id="finalScore">0</div>
+      <div class="res-badge" id="resBadge">🏆</div>
+      <div class="main-score" id="finalScore">0 XP</div>
+      <div class="main-score-sub" id="finalPct">0% дәлдік</div>
+      <div class="score-pills">
+        <div class="score-pill" style="color:var(--success)" id="correctPill">0 дұрыс</div>
+        <div class="score-pill" style="color:var(--danger)" id="wrongPill">0 қате</div>
+      </div>
       <div class="feedback-txt" id="feedbackText">Нәтиже есептелуде...</div>
     </div>
 
     <div class="analysis-card" id="analysisBlock" style="display:none;">
       <div class="analysis-title">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-          style="margin-right:5px; vertical-align:middle">
-          <path d="M2 12h20M2 12l5-5m-5 5l5 5" />
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
         </svg>
-        Әлсіз тақырыптар
+        Әлсіз тақырыптар (қайталау қажет)
       </div>
-      <div id="weakList">
-      </div>
+      <div id="weakList"></div>
     </div>
 
     <button class="action-btn btn-ai" onclick="generatePersonalCourse()">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path
-          d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
       </svg>
-      Жеке курс құрастыру (AI)
+      Жеке курс құрастыру (AI жоспар)
     </button>
 
-    <button class="action-btn btn-primary" onclick="location.reload()">Қайта тапсыру</button>
-    <button class="action-btn btn-sec" onclick="history.back()">Шығу</button>
+    <button class="action-btn btn-primary" onclick="restartCurrentQuiz()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M23 4v6h-6M1 20v-6h6M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" />
+      </svg>
+      Қайта тапсыру
+    </button>
+
+    <button class="action-btn btn-primary" onclick="openQuizPicker()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="3" y="3" width="7" height="7"></rect>
+        <rect x="14" y="3" width="7" height="7"></rect>
+        <rect x="14" y="14" width="7" height="7"></rect>
+        <rect x="3" y="14" width="7" height="7"></rect>
+      </svg>
+      Басқа тест таңдау
+    </button>
+
+    <button class="action-btn btn-sec" onclick="goBackOrHome()">Басты бетке оралу</button>
   </div>
 
+  <!-- QUIZ PICKER MODAL -->
+  <div class="quiz-picker-modal" id="quizPickerModal" onclick="if(event.target.id==='quizPickerModal') closeQuizPicker()">
+    <div class="glass-panel quiz-picker-card">
+      <div class="quiz-picker-head">
+        <div style="font-weight:800; font-size:16px;">Квизді таңдаңыз</div>
+        <button class="icon-btn" onclick="closeQuizPicker()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <div class="quiz-picker-list" id="pickerList"></div>
+    </div>
+  </div>
+
+  <!-- COURSE LOADER MODAL -->
   <div class="course-loader" id="courseLoader">
     <div class="loader-spinner"></div>
-    <div style="font-weight:600; color:var(--accent)">Курс бағдарламасы түзілуде...</div>
-    <div style="font-size:12px; color:var(--text-sec); margin-top:5px;">Әлсіз тақырыптар сарапталуда</div>
+    <div style="font-weight:600; color:var(--accent)">Жеке курс бағдарламасы түзілуде...</div>
+    <div style="font-size:12px; color:var(--text-sec); margin-top:5px;">Әлсіз тақырыптар талдануда</div>
   </div>
 
   <script>
-    // 1. INFORMATICS QUESTIONS — ЕНТ preparation
-    const questions = [
-      {
-        q: "2 санының 8-ші дәрежесі (2⁸) қандай санға тең?",
-        options: ["128", "256", "512", "64", "1024"],
-        correct: 1,
-        topic: "Сандар жүйесі"
-      },
-      {
-        q: "16 санының двоичтық жүйедегі жазылуы:",
-        options: ["1000", "10000", "1010", "1100", "11000"],
-        correct: 1,
-        topic: "Сандар жүйесі"
-      },
-      {
-        q: "1 Гигабайт (ГБ) неше Мегабайтқа (МБ) тең?",
-        options: ["100 МБ", "512 МБ", "1000 МБ", "1024 МБ", "2048 МБ"],
-        correct: 3,
-        topic: "Ақпараттың өлшемі"
-      },
-      {
-        q: "Python тілінде 5 ** 2 өрнегінің нәтижесі:",
-        options: ["10", "52", "25", "7", "3"],
-        correct: 2,
-        topic: "Python бағдарламалау"
-      },
-      {
-        q: "Логикалық OR операциясында: 1 OR 0 = ?",
-        options: ["0", "1", "10", "01", "Анықталмаған"],
-        correct: 1,
-        topic: "Логика алгебрасы"
-      },
-      {
-        q: "IP-мекенжай форматы IPv4-те қанша биттен тұрады?",
-        options: ["8 бит", "16 бит", "32 бит", "64 бит", "128 бит"],
-        correct: 2,
-        topic: "Компьютерлік желілер"
-      },
-      {
-        q: "16-лық санды 10-дық жүйеге аудару: A16 = ?",
-        options: ["8", "10", "16", "11", "12"],
-        correct: 1,
-        topic: "Сандар жүйесі"
-      },
-      {
-        q: "Дерекқорда (SQL) деректерді таңдау үшін қай команда қолданылады?",
-        options: ["INSERT", "UPDATE", "SELECT", "DELETE", "CREATE"],
-        correct: 2,
-        topic: "Дерекқорлар"
-      },
-      {
-        q: "Алгоритмде циклдің неше негізгі түрі бар?",
-        options: ["1", "2", "3", "4", "5"],
-        correct: 2,
-        topic: "Алгоритмдер"
-      },
-      {
-        q: "Python-да тізімнің (list) соңғы элементіне қалай жүгінеді?",
-        options: ["list[0]", "list[last]", "list[-1]", "list[end]", "list.last()"],
-        correct: 2,
-        topic: "Python бағдарламалау"
-      }
-    ];
+    // ═════════════════════════════════════════════════════════════════
+    // QUIZ CONTROLLER
+    // ═════════════════════════════════════════════════════════════════
 
+    let activeQuizId = "test-ent";
+    let activeQuizData = null;
+    let questions = [];
     let currentQIndex = 0;
     let score = 0;
+    let correctCount = 0;
+    let userAnswers = [];
+    let topicStats = {};
 
-    // 2. ANALYTICS STATE
-    let topicStats = {}; // { "TopicName": { total: 0, wrong: 0 } }
-
+    // DOM Elements
     const quizUI = document.getElementById('quizUI');
     const resultUI = document.getElementById('resultUI');
     const questionText = document.getElementById('questionText');
     const topicTag = document.getElementById('topicTag');
     const optionsGrid = document.getElementById('optionsGrid');
     const currQSpan = document.getElementById('currQ');
+    const totalQSpan = document.getElementById('totalQ');
     const scoreValSpan = document.getElementById('scoreVal');
+    const progFill = document.getElementById('progFill');
+    const headerQuizTitle = document.getElementById('headerQuizTitle');
     const analysisBlock = document.getElementById('analysisBlock');
     const weakList = document.getElementById('weakList');
 
-    function initGame() {
+    function initFromUrl() {
+      const params = new URLSearchParams(window.location.search);
+      const qParam = params.get('quiz') || params.get('id') || params.get('topic');
+
+      if (qParam) {
+        // Topic aliases support (e.g. ?topic=kinematics -> test-kinematics)
+        const topicAliasMap = {
+          'kinematics': 'test-kinematics',
+          'algorithms': 'test-kinematics',
+          'electricity': 'test-electro',
+          'python': 'test-electro',
+          'optics': 'test-dynamics',
+          'logic': 'test-dynamics',
+          'thermodynamics': 'test-energy',
+          'numbers': 'test-energy',
+          'mechanics': 'test-optics',
+          'networks': 'test-optics',
+          'quantum': 'test-databases',
+          'databases': 'test-databases',
+          'ent': 'test-ent'
+        };
+
+        activeQuizId = topicAliasMap[qParam] || qParam;
+      } else {
+        activeQuizId = "test-ent";
+      }
+
+      startQuiz(activeQuizId);
+    }
+
+    function startQuiz(quizId) {
+      activeQuizId = quizId;
+      activeQuizData = window.QuizStore ? QuizStore.getQuizById(quizId) : null;
+      
+      // If quiz is not in catalog by ID, find fallback or default
+      if (!activeQuizData && window.QUIZZES_CATALOG) {
+        activeQuizData = QUIZZES_CATALOG.find(q => q.id === quizId) || QUIZZES_CATALOG[0];
+        activeQuizId = activeQuizData.id;
+      }
+
+      // Load questions
+      if (window.QuizStore) {
+        questions = QuizStore.getQuestionsForQuiz(activeQuizId);
+      } else if (window.QUIZ_QUESTIONS) {
+        questions = QUIZ_QUESTIONS[activeQuizId] || QUIZ_QUESTIONS["test-ent"] || [];
+      } else {
+        questions = [];
+      }
+
+      // Update Header
+      if (headerQuizTitle) {
+        headerQuizTitle.textContent = activeQuizData ? activeQuizData.title : "Тест";
+      }
+      document.title = `InfoX | ${activeQuizData ? activeQuizData.title : 'Квиз'}`;
+
+      // Reset state
       currentQIndex = 0;
       score = 0;
+      correctCount = 0;
+      userAnswers = [];
       topicStats = {};
       scoreValSpan.innerText = "0";
+
+      // Hide results, show quiz UI
+      resultUI.style.display = 'none';
+      quizUI.style.display = 'flex';
+
+      if (!questions || questions.length === 0) {
+        renderEmptyState();
+        return;
+      }
+
+      totalQSpan.innerText = questions.length;
       loadQuestion();
+    }
+
+    function renderEmptyState() {
+      questionText.innerHTML = "Бұл квизге сұрақтар табылмады.";
+      topicTag.innerText = "Қате";
+      optionsGrid.innerHTML = `
+        <div class="empty-state-card glass-panel" style="grid-column: 1 / -1;">
+          <div style="font-size:36px">📂</div>
+          <div style="font-weight:700">Басқа квиз таңдаңыз</div>
+          <button class="action-btn btn-ai" onclick="openQuizPicker()">Барлық квиздерді қарау</button>
+        </div>
+      `;
     }
 
     function loadQuestion() {
@@ -629,10 +905,14 @@
 
       const qData = questions[currentQIndex];
       questionText.innerHTML = qData.q;
-      topicTag.innerText = qData.topic;
+      topicTag.innerText = qData.topic || "Информатика";
       currQSpan.innerText = currentQIndex + 1;
 
-      // Initialize stats if new topic
+      // Update progress bar
+      const pct = Math.round(((currentQIndex) / questions.length) * 100);
+      if (progFill) progFill.style.width = `${pct}%`;
+
+      // Initialize topic analytics
       if (!topicStats[qData.topic]) {
         topicStats[qData.topic] = { total: 0, wrong: 0 };
       }
@@ -641,12 +921,13 @@
 
       // Animation reset
       questionText.style.animation = 'none';
-      questionText.offsetHeight;
-      questionText.style.animation = 'fadeUp 0.4s ease-out';
+      questionText.offsetHeight; // trigger reflow
+      questionText.style.animation = 'fadeUp 0.35s ease-out';
 
       qData.options.forEach((opt, idx) => {
-        const btn = document.createElement('div');
+        const btn = document.createElement('button');
         btn.className = 'option-btn';
+        btn.setAttribute('aria-label', `Вариант ${idx + 1}: ${opt}`);
         const letter = String.fromCharCode(65 + idx);
         btn.innerHTML = `<div class="opt-letter">${letter}</div><span>${opt}</span>`;
         btn.onclick = () => checkAnswer(idx, btn);
@@ -663,60 +944,110 @@
 
       // Update Stats
       topicStats[qData.topic].total++;
+      const isCorrect = (selectedIndex === qData.correct);
 
-      if (selectedIndex === qData.correct) {
+      userAnswers.push({
+        questionIndex: currentQIndex,
+        question: qData.q,
+        topic: qData.topic,
+        selected: selectedIndex,
+        correct: qData.correct,
+        isCorrect: isCorrect
+      });
+
+      if (isCorrect) {
         score += 100;
+        correctCount++;
         scoreValSpan.innerText = score;
 
-        // Feature: Add Coins
-        try {
-          const currentCoins = parseInt(localStorage.getItem('physx_coins') || "50");
-          const newCoins = currentCoins + 10;
-          localStorage.setItem('physx_coins', String(newCoins));
-          showToast("Дұрыс! +100 XP & +10 ⚡", true);
-        } catch (e) {
-          showToast("Дұрыс! +100 XP", true);
+        // Vibrate feedback if supported
+        if (navigator.vibrate) {
+          try { navigator.vibrate(50); } catch (_) { }
         }
 
+        showToast("Дұрыс! +100 XP ⚡", true);
         btnElement.classList.add('correct-state');
       } else {
         showToast("Қате!", false);
         btnElement.classList.add('wrong-state');
-        buttons[qData.correct].classList.add('correct-state');
+        if (buttons[qData.correct]) {
+          buttons[qData.correct].classList.add('correct-state');
+        }
 
         // Mark as wrong for analytics
         topicStats[qData.topic].wrong++;
+
+        if (navigator.vibrate) {
+          try { navigator.vibrate([100, 50, 100]); } catch (_) { }
+        }
       }
 
       setTimeout(() => {
         currentQIndex++;
         loadQuestion();
-      }, 1500);
+      }, 1200);
     }
 
     function endGame() {
       quizUI.style.display = 'none';
       resultUI.style.display = 'flex';
 
-      document.getElementById('finalScore').innerText = score;
+      if (progFill) progFill.style.width = '100%';
+
+      const total = questions.length;
+      const wrong = total - correctCount;
+      const pct = total > 0 ? Math.round((correctCount / total) * 100) : 0;
+
+      // Update UI elements
+      document.getElementById('finalScore').innerText = `${score} XP`;
+      document.getElementById('finalPct').innerText = `${pct}% нәтиже`;
+      document.getElementById('correctPill').innerText = `${correctCount} дұрыс`;
+      document.getElementById('wrongPill').innerText = `${wrong} қате`;
+
+      const badge = document.getElementById('resBadge');
       const feedback = document.getElementById('feedbackText');
 
-      if (score >= 900) feedback.innerText = "Информатикадан керемет нәтиже! Гранттан 1 қадам! 🏆";
-      else if (score >= 600) feedback.innerText = "Жақсы! Бірақ бірнеше тақырыпты қайталау керек 💪";
-      else feedback.innerText = "InfoX-пен бірге дайындалайық — міндетті жетеміз! 📚";
+      if (pct >= 90) {
+        badge.innerText = "🏆";
+        feedback.innerText = "Керемет нәтиже! Информатиканы өте жақсы меңгергенсіз! Грантқа бір қадам жақынсыз!";
+      } else if (pct >= 70) {
+        badge.innerText = "🌟";
+        feedback.innerText = "Жақсы нәтиже! Негізгі тақырыптарды түсінгенсіз, әлсіз тұстарды қайталасаңыз болғаны.";
+      } else if (pct >= 50) {
+        badge.innerText = "💪";
+        feedback.innerText = "Жаман емес! Бірақ ҰБТ-ға дейін бірнеше тақырыпты пысықтау қажет. AI жоспарын қолданыңыз!";
+      } else {
+        badge.innerText = "📚";
+        feedback.innerText = "Уайымдамаңыз! InfoX-пен бірге жүйелі дайындалсаңыз, міндетті түрде жоғары балл жинайсыз!";
+      }
 
-      // 3. GENERATE ANALYSIS
+      // ── PERSIST RESULT TO STORAGE ──
+      if (window.QuizStore) {
+        QuizStore.recordAttempt({
+          quizId: activeQuizId,
+          quizTitle: activeQuizData ? activeQuizData.title : "Тест",
+          topic: activeQuizData ? activeQuizData.topic : "Информатика",
+          score: score,
+          maxScore: total * 100,
+          correctCount: correctCount,
+          wrongCount: wrong,
+          totalQuestions: total,
+          answers: userAnswers,
+          topicStats: topicStats
+        });
+      }
+
+      // Generate Analysis
       generateAnalysis();
     }
 
     function generateAnalysis() {
       weakList.innerHTML = '';
-      let hasWeakness = false;
 
       // Convert object to array and sort by wrong count
       const sortedTopics = Object.keys(topicStats).map(key => {
         return { name: key, ...topicStats[key] };
-      }).filter(t => t.wrong > 0); // Only show topics with mistakes
+      }).filter(t => t.wrong > 0);
 
       if (sortedTopics.length > 0) {
         analysisBlock.style.display = 'block';
@@ -724,9 +1055,9 @@
           const div = document.createElement('div');
           div.className = 'weak-item';
           div.innerHTML = `
-                <div class="w-name">${t.name}</div>
-                <div class="w-val">${t.wrong} қате</div>
-              `;
+            <div class="w-name">${t.name}</div>
+            <div class="w-val">${t.wrong} қате (${Math.round((t.wrong / t.total) * 100)}%)</div>
+          `;
           weakList.appendChild(div);
         });
       } else {
@@ -734,21 +1065,21 @@
       }
     }
 
-    // 4. PERSONAL COURSE SIMULATION
+    function restartCurrentQuiz() {
+      startQuiz(activeQuizId);
+    }
+
+    // AI Personal Course Recommendation
     function generatePersonalCourse() {
       const loader = document.getElementById('courseLoader');
-      const btn = document.querySelector('.btn-ai');
-
-      // UX Feedback
       loader.style.display = 'flex';
 
-      // Simulate API call / Processing time
       setTimeout(() => {
         loader.style.display = 'none';
 
         // Identify weakest topic
         const topics = Object.keys(topicStats);
-        let weakest = topics[0];
+        let weakest = topics[0] || "Алгоритмдер";
         let maxWrong = -1;
 
         topics.forEach(t => {
@@ -758,47 +1089,90 @@
           }
         });
 
-        if (maxWrong === 0) weakest = "Барлығы"; // Perfect score case
+        if (maxWrong <= 0) weakest = "Барлық тақырыптар (Жалпы бекіту)";
 
-        // Topic Mapping
         const topicMap = {
-          "Сандар жүйесі": "number-systems",
-          "Ақпараттың өлшемі": "data-units",
-          "Python бағдарламалау": "python",
-          "Логика алгебрасы": "logic",
-          "Компьютерлік желілер": "networks",
-          "Дерекқорлар": "databases",
-          "Алгоритмдер": "algorithms"
+          "Сандар жүйесі": "thermodynamics",
+          "Ақпараттың өлшемі": "thermodynamics",
+          "Python бағдарламалау": "electricity",
+          "Логика алгебрасы": "optics",
+          "Компьютерлік желілер": "mechanics",
+          "Дерекқорлар": "quantum",
+          "Алгоритмдер": "kinematics"
         };
 
-        const linkedId = topicMap[weakest] || "mechanics";
+        const linkedId = topicMap[weakest] || "kinematics";
 
-        // Save plan to localStorage
         const plan = {
           id: `personal-${Date.now()}`,
           title: `Жеке жоспар: ${weakest}`,
-          topic: "AI Ұсынысы (ЕНТ Информатика нәтижесі)",
+          topic: `AI Ұсынысы (${activeQuizData ? activeQuizData.title : 'Квиз'} нәтижесі)`,
           level: "11-сынып",
           progress: 0,
-          linkedTopic: linkedId
+          linkedTopic: linkedId,
+          createdAt: new Date().toISOString()
         };
 
-        let personalPlans = JSON.parse(localStorage.getItem('physx_personal_plans') || "[]");
+        let personalPlans = [];
+        try {
+          personalPlans = JSON.parse(localStorage.getItem('physx_personal_plans') || "[]");
+        } catch (_) { }
         personalPlans.unshift(plan);
         localStorage.setItem('physx_personal_plans', JSON.stringify(personalPlans));
 
-        // Redirect to profile tab
         localStorage.setItem('physx_active_tab', 'profile');
         showToast("Жеке жоспар құрылды!", true);
 
         setTimeout(() => {
           window.location.href = "home.html";
         }, 1000);
-      }, 2000);
+      }, 1500);
+    }
+
+    // ── QUIZ PICKER MODAL ──
+    function openQuizPicker() {
+      const modal = document.getElementById('quizPickerModal');
+      const list = document.getElementById('pickerList');
+      if (!modal || !list) return;
+
+      const quizzes = window.QuizStore ? QuizStore.getAllQuizzes() : (window.QUIZZES_CATALOG || []);
+      list.innerHTML = quizzes.map(q => `
+        <div class="picker-item" onclick="selectQuizAndClose('${q.id}')">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <span style="font-size:24px;">${q.icon}</span>
+            <div>
+              <div style="font-weight:700; font-size:14px;">${q.title}</div>
+              <div style="font-size:12px; color:var(--text-sec);">${q.questionsCount} сұрақ • +${q.reward} ⚡</div>
+            </div>
+          </div>
+          ${q.bestPercentage ? `<span style="font-size:12px; font-weight:700; color:var(--primary)">${q.bestPercentage}%</span>` : ''}
+        </div>
+      `).join('');
+
+      modal.classList.add('active');
+    }
+
+    function closeQuizPicker() {
+      document.getElementById('quizPickerModal')?.classList.remove('active');
+    }
+
+    function selectQuizAndClose(quizId) {
+      closeQuizPicker();
+      history.pushState(null, '', `quiz.html?quiz=${quizId}`);
+      startQuiz(quizId);
+    }
+
+    function goBackOrHome() {
+      if (document.referrer && document.referrer.includes(window.location.host)) {
+        history.back();
+      } else {
+        window.location.href = "home.html";
+      }
     }
 
     function showToast(msg, isSuccess) {
       const t = document.getElementById('toast');
+      if (!t) return;
       const icon = isSuccess
         ? '<polyline points="20 6 9 17 4 12"></polyline>'
         : '<line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>';
@@ -811,7 +1185,24 @@
       setTimeout(() => t.classList.remove('show'), 1500);
     }
 
-    initGame();
+    // Keyboard Shortcuts (1-5 and A-E)
+    document.addEventListener('keydown', (e) => {
+      if (resultUI.style.display === 'flex') return;
+      const key = e.key.toUpperCase();
+      let index = -1;
+      if (['1', '2', '3', '4', '5'].includes(key)) index = parseInt(key) - 1;
+      if (['A', 'B', 'C', 'D', 'E'].includes(key)) index = key.charCodeAt(0) - 65;
+
+      if (index >= 0) {
+        const buttons = optionsGrid.querySelectorAll('.option-btn');
+        if (buttons[index] && !buttons[index].classList.contains('disabled')) {
+          buttons[index].click();
+        }
+      }
+    });
+
+    // Start on DOM ready
+    document.addEventListener('DOMContentLoaded', initFromUrl);
   </script>
 
 </body>

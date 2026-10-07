@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script src="quiz-data.js"></script>
   <link rel="stylesheet" href="home.css" />
   <style>
     .grid-2-col-responsive {
@@ -93,29 +94,29 @@
     <div id="tab-home" class="tab-content active">
       <div class="hero">
         <div class="greeting">
-          <div class="h1">Сәлем, Азамат 👋</div>
-          <div class="txt-sm sub">Бүгінгі мақсат: Алгоритмдер негізін аяқтау</div>
+          <div class="h1" id="heroGreeting">Сәлем, Азамат 👋</div>
+          <div class="txt-sm sub" id="heroSubGoal">Бүгінгі мақсат: Алгоритмдер мен ҰБТ тестін тапсыру</div>
           <div style="margin-top: 10px;">
             <span class="streak-badge">
-              🔥 <span id="streakDays">3</span> күн streak
+              🔥 <span id="streakDays">0</span> күн streak
             </span>
           </div>
         </div>
         <div class="stats-row">
           <div class="stat-item">
-            <div class="stat-val">62<span style="font-size:16px; opacity:0.5">%</span></div>
+            <div class="stat-val" id="heroProgressVal">0<span style="font-size:16px; opacity:0.5">%</span></div>
             <div class="stat-label">ҰБТ дайындық</div>
             <div class="prog-track">
-              <div class="prog-fill" style="width: 62%"></div>
+              <div class="prog-fill" id="heroProgFill" style="width: 0%"></div>
             </div>
           </div>
           <div class="stat-item" style="align-items: center; text-align: center;">
-            <div class="stat-val">88%</div>
+            <div class="stat-val" id="heroAccuracyVal">0%</div>
             <div class="stat-label">Дәлдік</div>
           </div>
           <div class="stat-item" style="align-items: flex-end; text-align: right;">
-            <div class="stat-val">4.5сағ</div>
-            <div class="stat-label">Апта</div>
+            <div class="stat-val" id="heroQuizzesVal">0</div>
+            <div class="stat-label">Квиздер</div>
           </div>
         </div>
       </div>
@@ -137,7 +138,7 @@
             <div class="h2" style="margin-bottom:6px;">Информатика тесті</div>
             <div class="txt-sm" style="opacity:0.8; margin-bottom: 12px;">ҰБТ форматындағы тест тапсырып, деңгейіңді
               анықта.</div>
-            <button class="cta-btn ent-btn" onclick=location.href="quiz.html">
+            <button class="cta-btn ent-btn" onclick="location.href='quiz.html?quiz=test-ent'">
               <svg viewBox="0 0 24 24">
                 <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                 <polyline points="14 2 14 8 20 8"></polyline>
@@ -245,23 +246,23 @@
     <div id="tab-profile" class="tab-content" style="padding-bottom: 60px;">
       <div style="text-align:center; margin-bottom: 14px;">
         <div class="h3">Профиль</div>
-        <div class="txt-sm">Прогресс пен әдеттер</div>
+        <div class="txt-sm">Прогресс пен нақты нәтижелер</div>
       </div>
       <div class="profile-card">
         <div class="profile-top">
           <div class="avatar" id="profileAvatar">A</div>
           <div style="display:flex; flex-direction:column;">
             <div class="h2" style="margin:0;" id="profileName">Азамат</div>
-            <div class="txt-sm" id="profileRole">Оқушы • 8-сынып</div>
+            <div class="txt-sm" id="profileRole">Оқушы • 11-сынып</div>
           </div>
         </div>
         <div class="profile-stats">
           <div class="pstat">
-            <div class="v" id="pProgress">62%</div>
+            <div class="v" id="pProgress">0%</div>
             <div class="l">Жалпы прогресс</div>
           </div>
           <div class="pstat">
-            <div class="v" id="pAccuracy">88%</div>
+            <div class="v" id="pAccuracy">0%</div>
             <div class="l">Дәлдік</div>
           </div>
           <div class="pstat">
@@ -271,18 +272,58 @@
             </div>
             <div class="l">Бит</div>
           </div>
-        </div>
-        <div style="margin-top: 14px;">
-          <div class="txt-xs" style="margin-bottom:6px;">Апталық мақсат</div>
-          <div class="mini-track">
-            <div class="mini-fill" id="weeklyFill" style="width: 45%"></div>
+          <div class="pstat">
+            <div class="v" style="color: var(--gold);" id="pTotalXp">0</div>
+            <div class="l">Жалпы XP</div>
           </div>
-          <div class="txt-sm" style="margin-top:8px; opacity:0.85;" id="weeklyText">4.5 сағ / 10 сағ</div>
+        </div>
+
+        <div class="stat-grid-4">
+          <div class="metric-card">
+            <div class="metric-val" id="pQuizzesCount">0</div>
+            <div class="metric-label">Квиздер</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-val" style="color:var(--success)" id="pCorrectAnswers">0</div>
+            <div class="metric-label">Дұрыс</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-val" style="color:var(--danger)" id="pWrongAnswers">0</div>
+            <div class="metric-label">Қате</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-val" style="color:var(--warn)" id="pStreakDays">0 күн</div>
+            <div class="metric-label">Серия (Streak)</div>
+          </div>
+        </div>
+
+        <div style="margin-top: 16px;">
+          <div class="txt-xs" style="margin-bottom:6px;">Апталық мақсат (Оқу уақыты)</div>
+          <div class="mini-track">
+            <div class="mini-fill" id="weeklyFill" style="width: 0%"></div>
+          </div>
+          <div class="txt-sm" style="margin-top:8px; opacity:0.85;" id="weeklyText">0 сағ / 10 сағ</div>
         </div>
       </div>
-      <div class="section-head">
-        <div class="h3">Курстар прогресі</div>
-        <div class="link-btn" onclick="setTab('home')">Басты бет</div>
+
+      <!-- TOPIC PROGRESS -->
+      <div class="section-head" style="margin-top:20px;">
+        <div class="h3">Тақырыптар бойынша прогресс</div>
+        <div class="txt-sm" style="opacity:0.7;">Нақты меңгеру</div>
+      </div>
+      <div id="profileTopicStats"></div>
+
+      <!-- RECENT ATTEMPTS / ACTIVITY HISTORY -->
+      <div class="section-head" style="margin-top:20px;">
+        <div class="h3">Соңғы тест нәтижелері</div>
+        <div class="txt-sm" id="attemptsCountLabel">0 сынақ</div>
+      </div>
+      <div id="profileAttemptsHistory"></div>
+
+      <!-- COURSES PROGRESS -->
+      <div class="section-head" style="margin-top:20px;">
+        <div class="h3">Курстар мен жоспарлар</div>
+        <div class="link-btn" onclick="setTab('courses')">Барлығы</div>
       </div>
       <div id="profileCourses"></div>
     </div>
@@ -475,8 +516,10 @@
           <p id="achievementDesc">Сіз жаңа деңгейге жеттіңіз!</p>
         </div>
       </div>
+    </div>
+  </div>
 
-      <script src="home.js"></script>
+  <script src="home.js"></script>
 </body>
 
 </html>

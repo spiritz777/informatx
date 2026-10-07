@@ -335,11 +335,11 @@ function openTopic(topicId) {
   });
 
   document.getElementById("courseBodyContent").innerHTML = bodyHTML;
-  
+
   // Show video container
   const videoSection = document.querySelector(".video-section");
-  if(videoSection) videoSection.style.display = "block";
-  
+  if (videoSection) videoSection.style.display = "block";
+
   document.getElementById("videoPlayer").innerHTML = `
         <iframe 
           src="https://www.youtube.com/embed/${content.videoId}" 
@@ -372,10 +372,10 @@ function closeCourseModal() {
   // Stop video playback and reset display
   const vp = document.getElementById("videoPlayer");
   if (vp) vp.innerHTML = "";
-  
+
   setTimeout(() => {
     const videoSection = document.querySelector(".video-section");
-    if(videoSection) videoSection.style.display = "block";
+    if (videoSection) videoSection.style.display = "block";
   }, 300);
 }
 
@@ -692,7 +692,7 @@ setTimeout(() => {
 }, 500);
 
 // ================== CHAT ==================
-const API_KEY = "AIzaSyD92YziqcLPpTaVWtdxF9Q2OOnDAMBnAKw";
+const API_KEY = "AQ.Ab8RN6IBbSpWHKBm0ZHWTWrH4BDJJ68kR5YOKyVrR0C0plrFkg";
 const MODEL = "gemini-2.5-flash-lite";
 const ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${API_KEY}`;
 const systemInstruction = {
@@ -998,11 +998,11 @@ function runTest(testId) {
 
   // 2. Hide Video & Set Title
   const videoSection = document.querySelector(".video-section");
-  if(videoSection) videoSection.style.display = "none";
-  
+  if (videoSection) videoSection.style.display = "none";
+
   headerTitle.textContent = testData.title;
   headerLevel.textContent = "Бақылау жұмысы";
-  
+
   // 3. Get Questions (Use specific or generate dummy)
   let questions = TEST_QUESTIONS[testId];
   if (!questions) {
@@ -1068,7 +1068,7 @@ function runTest(testId) {
     const q = questions[currentQIndex];
     const isCorrect = selectedIndex === q.correct;
     const btn = document.getElementById(`opt-${selectedIndex}`);
-    
+
     // UI Feedback
     if (isCorrect) {
       score++;
@@ -1078,14 +1078,14 @@ function runTest(testId) {
     } else {
       btn.classList.add('selected-wrong');
       btn.innerHTML += `<span>❌</span>`;
-      
+
       // Highlight correct one
       const correctBtn = document.getElementById(`opt-${q.correct}`);
       correctBtn.classList.add('selected-correct');
-      
+
       showToast("Қате!", "⚠️");
       // Vibrate on mobile if supported
-      if(navigator.vibrate) navigator.vibrate(200);
+      if (navigator.vibrate) navigator.vibrate(200);
     }
 
     // Disable all buttons
@@ -1102,7 +1102,7 @@ function runTest(testId) {
   // 5. Open Modal
   modal.classList.add("active");
   document.body.classList.add("modal-open");
-  
+
   // Start
   renderQuestion();
 }
