@@ -109,6 +109,112 @@ document.addEventListener("click", (e) => {
   }
 });
 
+// ============================================================================
+// 🎬 БЕЙНЕ САБАҚТАРДЫҢ СІЛТЕМЕЛЕРІ (LESSON VIDEO URLS)
+// Осында әр сабақ үшін кез келген YouTube сілтемесін немесе видео ID жаза аласыз:
+// Мысалы:
+//   "https://www.youtube.com/watch?v=XXXXXX"
+//   "https://youtu.be/XXXXXX"
+//   "XXXXXX" (бейне коды)
+// ============================================================================
+const LESSON_DEFAULT_VIDEOS = {
+  kinematics: "https://www.youtube.com/watch?v=8hly31xKli0",      // 1. Алгоритмдер
+  electricity: "https://www.youtube.com/watch?v=rfscVS0vtbw",     // 2. Python негіздері
+  optics: "https://www.youtube.com/watch?v=gI-6Xk8H6hY",          // 3. Логика (Премиум)
+  thermodynamics: "https://www.youtube.com/watch?v=1GDf61J8f7E",  // 4. Сан жүйелері (Премиум)
+  mechanics: "https://www.youtube.com/watch?v=3QhU9JD94Ht",       // 5. Компьютерлік желілер (Премиум)
+  quantum: "https://www.youtube.com/watch?v=HXV3zeQKqGY"          // 6. Деректер қоры (Премиум)
+};
+
+/**
+ * YouTube URL немесе кез келген форматтағы сілтемеден 11 таңбалы Video ID шығарып алады
+ */
+function parseYouTubeId(input) {
+  if (!input) return "";
+  input = String(input).trim();
+  if (/^[a-zA-Z0-9_-]{11}$/.test(input)) {
+    return input;
+  }
+  const match = input.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=|shorts\/))([a-zA-Z0-9_-]{11})/i);
+  return match ? match[1] : input;
+}
+
+function getCustomVideos() {
+  try { return JSON.parse(localStorage.getItem('ifx_custom_videos') || '{}'); }
+  catch { return {}; }
+}
+
+function getTopicVideoId(topicId) {
+  const custom = getCustomVideos();
+  if (custom && custom[topicId]) {
+    const parsed = parseYouTubeId(custom[topicId]);
+    if (parsed) return parsed;
+  }
+  if (LESSON_DEFAULT_VIDEOS[topicId]) {
+    const parsed = parseYouTubeId(LESSON_DEFAULT_VIDEOS[topicId]);
+    if (parsed) return parsed;
+  }
+  return COURSE_CONTENT[topicId]?.videoId || "8hly31xKli0";
+}
+
+function setTopicVideoUrl(topicId, url) {
+  const custom = getCustomVideos();
+  if (!url || !url.trim()) {
+    delete custom[topicId];
+  } else {
+    custom[topicId] = url.trim();
+  }
+  try { localStorage.setItem('ifx_custom_videos', JSON.stringify(custom)); }
+  catch {}
+}
+
+let currentOpenTopicId = null;
+
+/**
+ * Сабақ ішіндегі бейне сілтемесін тікелей UI арқылы енгізу / өзгерту терезесі
+ */
+function promptEditVideoUrl() {
+  if (!currentOpenTopicId) return;
+  const topicTitle = COURSE_CONTENT[currentOpenTopicId]?.title || 'Бейне сабақ';
+  const custom = getCustomVideos();
+  const currentUrl = custom[currentOpenTopicId] || LESSON_DEFAULT_VIDEOS[currentOpenTopicId] || "";
+  
+  const newUrl = prompt(
+    `"${topicTitle}" үшін жаңа YouTube сілтемесін немесе бейне ID-ін енгізіңіз:\n(Мысалы: https://www.youtube.com/watch?v=... немесе https://youtu.be/...)\n\nБос қалдырсаңыз — бастапқы сілтеме қалпына келтіріледі:`,
+    currentUrl
+  );
+  
+  if (newUrl === null) return; // Пайдаланушы бас тартты
+  
+  const trimmed = newUrl.trim();
+  if (!trimmed) {
+    setTopicVideoUrl(currentOpenTopicId, "");
+    showToast("Бастапқы бейне сілтемесі қалпына келтірілді 🔄", "✓");
+  } else {
+    const parsed = parseYouTubeId(trimmed);
+    if (!parsed || parsed.length < 5) {
+      showToast("Сілтеме дұрыс емес, тексеріп қайталаңыз", "⚠️");
+      return;
+    }
+    setTopicVideoUrl(currentOpenTopicId, trimmed);
+    showToast("Бейне сілтемесі сәтті сақталды! 🎬", "✓");
+  }
+
+  // Ойнатқышты бірден жаңарту
+  const videoId = getTopicVideoId(currentOpenTopicId);
+  const player = document.getElementById("videoPlayer");
+  if (player) {
+    player.innerHTML = `
+      <iframe 
+        src="https://www.youtube.com/embed/${videoId}?modestbranding=1&rel=0&autoplay=1" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen>
+      </iframe>
+    `;
+  }
+}
+
 // ================== COURSE CONTENT ==================
 const COURSE_CONTENT = {
   kinematics: {
@@ -118,8 +224,7 @@ const COURSE_CONTENT = {
     sections: [
       {
         title: "Алгоритм дегеніміз не?",
-        content: "Алгоритм — берілген есепті шешуге арналған нақты қадамдар тізбегі. Информатикада алгоритмдер программалаудың негізі болып табылады. Жақсы алгоритм түсінікті, бір мәнді және аяқталатын болуы керек.",
-        image: "https://via.placeholder.com/600x300/0F172A/67E8F9?text=Algorithms"
+        content: "Алгоритм — берілген есепті шешуге арналған нақты қадамдар тізбегі. Информатикада алгоритмдер программалаудың негізі болып табылады. Жақсы алгоритм түсінікті, бір мәнді және аяқталатын болуы керек."
       },
       {
         title: "Алгоритм қасиеттері",
@@ -144,8 +249,7 @@ const COURSE_CONTENT = {
     sections: [
       {
         title: "Python дегеніміз не?",
-        content: "Python — қарапайым әрі күшті программалау тілі. ҰБТ информатикасында алгоритмдерді кодтау үшін жиі қолданылады. Айнымалылар, шарттар және циклдар — бастапқы деңгейдің негізі.",
-        image: "https://via.placeholder.com/600x300/0F172A/67E8F9?text=Python"
+        content: "Python — қарапайым әрі күшті программалау тілі. ҰБТ информатикасында алгоритмдерді кодтау үшін жиі қолданылады. Айнымалылар, шарттар және циклдар — бастапқы деңгейдің негізі."
       },
       {
         title: "Айнымалылар және типтер",
@@ -171,8 +275,7 @@ const COURSE_CONTENT = {
     sections: [
       {
         title: "Логикалық операциялар",
-        content: "ЖӘНЕ (AND), НЕМЕСЕ (OR), ЕМЕС (NOT) — негізгі логикалық операциялар. Олар шарттарды құруда және схемаларды талдауда қолданылады.",
-        image: "https://via.placeholder.com/600x300/0F172A/67E8F9?text=Logic"
+        content: "ЖӘНЕ (AND), НЕМЕСЕ (OR), ЕМЕС (NOT) — негізгі логикалық операциялар. Олар шарттарды құруда және схемаларды талдауда қолданылады."
       },
       {
         title: "Ақиқат кестесі",
@@ -203,8 +306,7 @@ const COURSE_CONTENT = {
       {
         title: "Сан жүйелеріне кіріспе",
         content: "Сан жүйесі — сандарды жазу ережелерінің жиынтығы. Ең жиі қолданылатыны: ондық (10), екілік (2), сегіздік (8) және оналтылық (16).",
-        formula: "1010₂ = 10₁₀",
-        image: "https://via.placeholder.com/600x300/0F172A/67E8F9?text=Number+Systems"
+        formula: "1010₂ = 10₁₀"
       },
       {
         title: "Екілік жүйеге ауыстыру",
@@ -230,8 +332,7 @@ const COURSE_CONTENT = {
     sections: [
       {
         title: "Желілер негіздері",
-        content: "Компьютерлік желі — дерек алмасу үшін қосылған құрылғылар тобы. LAN, WAN, Internet — негізгі желі түрлері.",
-        image: "https://via.placeholder.com/600x300/0F172A/67E8F9?text=Networks"
+        content: "Компьютерлік желі — дерек алмасу үшін қосылған құрылғылар тобы. LAN, WAN, Internet — негізгі желі түрлері."
       },
       {
         title: "IP және протоколдар",
@@ -261,8 +362,7 @@ const COURSE_CONTENT = {
     sections: [
       {
         title: "Деректер қорына кіріспе",
-        content: "Деректер қоры (ДҚ) — құрылымдалған ақпаратты сақтау және іздеу жүйесі. Кестелер, жолдар және бағандар арқылы ұйымдастырылады.",
-        image: "https://via.placeholder.com/600x300/0F172A/67E8F9?text=Databases"
+        content: "Деректер қоры (ДҚ) — құрылымдалған ақпаратты сақтау және іздеу жүйесі. Кестелер, жолдар және бағандар арқылы ұйымдастырылады."
       },
       {
         title: "SQL негіздері",
@@ -305,6 +405,8 @@ function openTopic(topicId) {
     }
   }
 
+  currentOpenTopicId = topicId;
+
   document.getElementById("courseTitle").textContent = content.title;
   document.getElementById("courseLevel").textContent = content.level;
 
@@ -338,11 +440,19 @@ function openTopic(topicId) {
 
   // Show video container
   const videoSection = document.querySelector(".video-section");
-  if (videoSection) videoSection.style.display = "block";
+  if (videoSection) {
+    videoSection.style.display = "block";
+    videoSection.classList.remove("collapsed");
+  }
+  const vLabel = document.getElementById("videoToggleLabel");
+  if (vLabel) vLabel.textContent = "Жинау";
+  const vIcon = document.getElementById("videoToggleIcon");
+  if (vIcon) vIcon.style.transform = "rotate(0deg)";
 
+  const videoId = getTopicVideoId(topicId);
   document.getElementById("videoPlayer").innerHTML = `
         <iframe 
-          src="https://www.youtube.com/embed/${content.videoId}" 
+          src="https://www.youtube.com/embed/${videoId}?modestbranding=1&rel=0" 
           frameborder="0" 
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
           allowfullscreen>
@@ -363,6 +473,16 @@ function openTopic(topicId) {
   showAchievement("Зерттеуші! 🔬", `"${content.title}" курсын ашып көрдіңіз`);
 }
 
+function toggleVideoCollapse() {
+  const section = document.getElementById("videoSection") || document.querySelector(".video-section");
+  const label = document.getElementById("videoToggleLabel");
+  const icon = document.getElementById("videoToggleIcon");
+  if (!section) return;
+  const isCollapsed = section.classList.toggle("collapsed");
+  if (label) label.textContent = isCollapsed ? "Ашу" : "Жинау";
+  if (icon) icon.style.transform = isCollapsed ? "rotate(180deg)" : "rotate(0deg)";
+}
+
 function closeCourseModal() {
   const modal = document.getElementById("courseModal");
   modal?.classList.remove("active");
@@ -372,6 +492,14 @@ function closeCourseModal() {
   // Stop video playback and reset display
   const vp = document.getElementById("videoPlayer");
   if (vp) vp.innerHTML = "";
+
+  // Reset collapse state
+  const section = document.getElementById("videoSection") || document.querySelector(".video-section");
+  if (section) section.classList.remove("collapsed");
+  const label = document.getElementById("videoToggleLabel");
+  if (label) label.textContent = "Жинау";
+  const icon = document.getElementById("videoToggleIcon");
+  if (icon) icon.style.transform = "rotate(0deg)";
 
   setTimeout(() => {
     const videoSection = document.querySelector(".video-section");
@@ -639,6 +767,7 @@ function setTab(tabName) {
     home: 'nav-home',
     chat: 'nav-chat',
     courses: 'nav-courses',
+    multiplayer: 'nav-multiplayer',
     shop: 'nav-shop',
     profile: 'nav-profile'
   };
@@ -649,6 +778,11 @@ function setTab(tabName) {
   // Update home topics when switching to home tab
   if (tabName === 'home') {
     updateHomeTopics();
+  }
+
+  // Initialize or re-check multiplayer
+  if (tabName === 'multiplayer' && window.Multiplayer) {
+    Multiplayer.init();
   }
 
   try { localStorage.setItem('physx_active_tab', tabName); } catch (e) { }
@@ -1054,7 +1188,10 @@ function runTest(testId) {
         <div id="options-container">
           ${q.options.map((opt, idx) => `
             <button class="quiz-option" onclick="handleAnswer(${idx})" id="opt-${idx}">
-              <span>${opt}</span>
+              <div style="display:flex; align-items:center; gap:12px;">
+                <span class="quiz-opt-letter" style="width:28px; height:28px; border-radius:8px; background:#F1F5F9; border:1px solid #E2E8F0; display:inline-flex; align-items:center; justify-content:center; font-size:12px; font-weight:800; font-family:var(--font-mono); color:#475569;">${String.fromCharCode(65 + idx)}</span>
+                <span>${opt}</span>
+              </div>
               <div class="status-icon"></div>
             </button>
           `).join('')}
@@ -1073,15 +1210,27 @@ function runTest(testId) {
     if (isCorrect) {
       score++;
       btn.classList.add('selected-correct');
-      btn.innerHTML += `<span>✅</span>`;
+      const letter = btn.querySelector('.quiz-opt-letter');
+      if (letter) { letter.style.background = 'var(--success)'; letter.style.color = '#fff'; letter.style.borderColor = 'var(--success)'; }
+      const statusIcon = btn.querySelector('.status-icon');
+      if (statusIcon) statusIcon.innerHTML = '✅';
       showToast("Дұрыс!", "✓");
     } else {
       btn.classList.add('selected-wrong');
-      btn.innerHTML += `<span>❌</span>`;
+      const letter = btn.querySelector('.quiz-opt-letter');
+      if (letter) { letter.style.background = 'var(--danger)'; letter.style.color = '#fff'; letter.style.borderColor = 'var(--danger)'; }
+      const statusIcon = btn.querySelector('.status-icon');
+      if (statusIcon) statusIcon.innerHTML = '❌';
 
       // Highlight correct one
       const correctBtn = document.getElementById(`opt-${q.correct}`);
-      correctBtn.classList.add('selected-correct');
+      if (correctBtn) {
+        correctBtn.classList.add('selected-correct');
+        const cLetter = correctBtn.querySelector('.quiz-opt-letter');
+        if (cLetter) { cLetter.style.background = 'var(--success)'; cLetter.style.color = '#fff'; cLetter.style.borderColor = 'var(--success)'; }
+        const cIcon = correctBtn.querySelector('.status-icon');
+        if (cIcon) cIcon.innerHTML = '✅';
+      }
 
       showToast("Қате!", "⚠️");
       // Vibrate on mobile if supported
@@ -1608,6 +1757,131 @@ function loadUserProfile() {
     if (sbName) sbName.textContent = name;
     if (sbRole) sbRole.textContent = `${role} • ${grade}-сынып`;
     if (sbAvatar) sbAvatar.textContent = name.charAt(0).toUpperCase();
+
+    // Update ELO and statistics in profile and home
+    try {
+      const attempts = JSON.parse(localStorage.getItem('physx_quiz_attempts') || '[]');
+      let hasReal = Array.isArray(attempts) && attempts.length > 0;
+      let correct = 0, total = 0, wrong = 0, xp = 0;
+
+      if (hasReal) {
+        attempts.forEach(a => {
+          const qCount = a.totalQuestions || 0;
+          const cCount = a.correctCount || 0;
+          const wCount = a.wrongCount !== undefined ? a.wrongCount : Math.max(0, qCount - cCount);
+          correct += cCount;
+          total += qCount;
+          wrong += wCount;
+          xp += (a.score || 0);
+        });
+      }
+
+      // If no real quiz attempts, use realistic simulated percentages
+      const accuracy = hasReal && total > 0 ? Math.round((correct / total) * 100) : 84;
+      const progress = hasReal ? Math.min(100, Math.round((attempts.length / 7) * 100)) : 68;
+      const quizzesCount = hasReal ? attempts.length : 16;
+      const correctCount = hasReal ? correct : 42;
+      const wrongCount = hasReal ? wrong : 8;
+      const streakVal = 5;
+      const totalXpVal = hasReal && xp > 0 ? xp : 1420;
+
+      // Base ELO: 1320 (Gold League / 7th place) if simulated, or formula if real attempts
+      const baseElo = hasReal ? Math.min(2000, 1000 + correct * 2 + accuracy * 3) : 1320;
+      const delta = parseInt(localStorage.getItem('ifx_elo_delta') || '0', 10);
+      const elo = baseElo + delta;
+
+      let league, leagueName;
+      if (elo >= 1400) { league = '💎'; leagueName = 'Алмаз лига'; }
+      else if (elo >= 1300) { league = '🥇'; leagueName = 'Алтын лига'; }
+      else if (elo >= 1100) { league = '🥈'; leagueName = 'Күміс лига'; }
+      else { league = '🥉'; leagueName = 'Қола лига'; }
+
+      // Update home hero stats
+      const hProg = document.getElementById('heroProgressVal');
+      const hProgFill = document.getElementById('heroProgFill');
+      const hAcc = document.getElementById('heroAccuracyVal');
+      const hQuiz = document.getElementById('heroQuizzesVal');
+      const hStreak = document.getElementById('streakDays');
+
+      if (hProg) hProg.innerHTML = `${progress}<span style="font-size:16px; opacity:0.5">%</span>`;
+      if (hProgFill) hProgFill.style.width = `${progress}%`;
+      if (hAcc) hAcc.textContent = `${accuracy}%`;
+      if (hQuiz) hQuiz.textContent = String(quizzesCount);
+      if (hStreak) hStreak.textContent = String(streakVal);
+
+      // Update profile stats
+      const pProg = document.getElementById('pProgress');
+      const pAcc = document.getElementById('pAccuracy');
+      const pXp = document.getElementById('pTotalXp');
+      const pQCnt = document.getElementById('pQuizzesCount');
+      const pCor = document.getElementById('pCorrectAnswers');
+      const pWrn = document.getElementById('pWrongAnswers');
+      const pStrk = document.getElementById('pStreakDays');
+      const wFill = document.getElementById('weeklyFill');
+      const wTxt = document.getElementById('weeklyText');
+      const attLbl = document.getElementById('attemptsCountLabel');
+
+      if (pProg) pProg.textContent = `${progress}%`;
+      if (pAcc) pAcc.textContent = `${accuracy}%`;
+      if (pXp) pXp.textContent = totalXpVal.toLocaleString('kk-KZ');
+      if (pQCnt) pQCnt.textContent = String(quizzesCount);
+      if (pCor) pCor.textContent = String(correctCount);
+      if (pWrn) pWrn.textContent = String(wrongCount);
+      if (pStrk) pStrk.textContent = `${streakVal} күн`;
+      if (wFill) wFill.style.width = '70%';
+      if (wTxt) wTxt.textContent = '7 сағ / 10 сағ';
+      if (attLbl) attLbl.textContent = `${quizzesCount} сынақ`;
+
+      // Update profile ELO card
+      const eloEl = document.getElementById('profileEloDisplay');
+      const rankEl = document.getElementById('profileRankDisplay');
+      if (eloEl) eloEl.textContent = `${elo} ELO`;
+      if (rankEl) rankEl.textContent = `${league} #7 · ${leagueName}`;
+
+      // Populate profile topic progress
+      const topicStatsEl = document.getElementById('profileTopicStats');
+      if (topicStatsEl && !topicStatsEl.children.length) {
+        const mockTopics = [
+          { name: "Алгоритмдер", pct: 85, color: "var(--primary)" },
+          { name: "Python бағдарламалау", pct: 80, color: "var(--accent)" },
+          { name: "Логика алгебрасы", pct: 92, color: "var(--success)" },
+          { name: "Сандар жүйесі", pct: 88, color: "var(--gold)" },
+          { name: "Компьютерлік желілер", pct: 75, color: "#8b5cf6" },
+          { name: "Дерекқорлар (SQL)", pct: 70, color: "#06b6d4" }
+        ];
+        topicStatsEl.innerHTML = mockTopics.map(t => `
+          <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-md); padding:10px 14px; margin-bottom:8px;">
+            <div style="display:flex; justify-content:space-between; font-size:13px; font-weight:600; margin-bottom:6px;">
+              <span>${t.name}</span>
+              <span style="color:${t.color}; font-weight:700;">${t.pct}%</span>
+            </div>
+            <div class="mini-track"><div class="mini-fill" style="background:${t.color}; width:${t.pct}%;"></div></div>
+          </div>
+        `).join('');
+      }
+
+      // Populate profile attempts history
+      const historyEl = document.getElementById('profileAttemptsHistory');
+      if (historyEl && !historyEl.children.length) {
+        const mockAttempts = [
+          { title: "ҰБТ сынама тесті", score: "18 / 20", pct: "90%", time: "Бүгін, 16:40" },
+          { title: "Python негіздері", score: "9 / 10", pct: "90%", time: "Кеше, 18:15" },
+          { title: "Сандар жүйесі мен кодтау", score: "8 / 10", pct: "80%", time: "2 күн бұрын" }
+        ];
+        historyEl.innerHTML = mockAttempts.map(a => `
+          <div class="list-item" style="margin-bottom:8px; padding:12px 14px;">
+            <div>
+              <div class="h3" style="font-size:14px; margin-bottom:2px;">${a.title}</div>
+              <div class="txt-sm">${a.time} • ${a.score} дұрыс</div>
+            </div>
+            <div class="deadline" style="color:var(--success); font-weight:700;">${a.pct}</div>
+          </div>
+        `).join('');
+      }
+
+    } catch (err) {
+      console.error("Error updating stats:", err);
+    }
 
   } catch (e) {
     console.error("Error loading profile:", e);

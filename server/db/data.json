@@ -1,0 +1,111 @@
+{
+  "users": [
+    {
+      "id": "ce895c8f-8cff-4757-acbf-52eaf88b027c",
+      "email": "alice@test.kz",
+      "passwordHash": "$2a$10$.2oSGG4m6Y4qFS8zGohZzezqqflvDvUOewQzby0ry4wQgeiMWuNJG",
+      "name": "Alice",
+      "grade": "11",
+      "createdAt": "2026-10-22T10:45:51.715Z"
+    },
+    {
+      "id": "520c706c-4398-4831-816b-ab030797100e",
+      "email": "bob@test.kz",
+      "passwordHash": "$2a$10$ypWZE622cPUHVKmkd/AsresPQxr4ijqpi.XQg8KB.aqHtR4N6SKUa",
+      "name": "Bob",
+      "grade": "10",
+      "createdAt": "2026-10-22T10:45:51.822Z"
+    }
+  ],
+  "ratings": [
+    {
+      "userId": "ce895c8f-8cff-4757-acbf-52eaf88b027c",
+      "rating": 1216,
+      "rank": "Bronze",
+      "wins": 1,
+      "losses": 0,
+      "draws": 0,
+      "bestRating": 1216,
+      "streak": 1,
+      "updatedAt": "2026-10-22T10:45:52.022Z"
+    },
+    {
+      "userId": "520c706c-4398-4831-816b-ab030797100e",
+      "rating": 1184,
+      "rank": "Bronze",
+      "wins": 0,
+      "losses": 1,
+      "draws": 0,
+      "bestRating": 1200,
+      "streak": 0,
+      "updatedAt": "2026-10-22T10:45:52.023Z"
+    }
+  ],
+  "ratingHistory": [
+    {
+      "id": "f88dd42d-49a7-4469-a555-7241d7896186",
+      "userId": "ce895c8f-8cff-4757-acbf-52eaf88b027c",
+      "matchId": "4ab4ba5b-2406-435f-866d-a421f2eb9bd5",
+      "oldRating": 1200,
+      "newRating": 1216,
+      "delta": 16,
+      "reason": "win",
+      "createdAt": "2026-10-22T10:45:52.025Z"
+    },
+    {
+      "id": "d3a0f819-4023-4104-ac7d-417a15f92363",
+      "userId": "520c706c-4398-4831-816b-ab030797100e",
+      "matchId": "4ab4ba5b-2406-435f-866d-a421f2eb9bd5",
+      "oldRating": 1200,
+      "newRating": 1184,
+      "delta": -16,
+      "reason": "loss",
+      "createdAt": "2026-10-22T10:45:52.025Z"
+    }
+  ],
+  "matches": [
+    {
+      "id": "4ab4ba5b-2406-435f-866d-a421f2eb9bd5",
+      "player1Id": "ce895c8f-8cff-4757-acbf-52eaf88b027c",
+      "player2Id": "520c706c-4398-4831-816b-ab030797100e",
+      "quizId": "test-ent",
+      "status": "finished",
+      "startedAt": "2026-10-22T10:45:52.017Z",
+      "endedAt": "2026-10-22T10:45:52.020Z",
+      "winnerId": "ce895c8f-8cff-4757-acbf-52eaf88b027c",
+      "ratingApplied": true,
+      "answers": {}
+    }
+  ],
+  "matchAnswers": [],
+  "securityEvents": [
+    {
+      "id": "b2237a0e-6d95-406c-8915-ec32f721c1e4",
+      "userId": "ce895c8f-8cff-4757-acbf-52eaf88b027c",
+      "matchId": "match-x",
+      "type": "duplicate_answer",
+      "details": "q2 answered twice",
+      "riskLevel": 2,
+      "createdAt": "2026-10-22T10:45:52.029Z"
+    },
+    {
+      "id": "fedddf8b-4bdf-40b2-ad2d-bb299b9b3d02",
+      "userId": "ce895c8f-8cff-4757-acbf-52eaf88b027c",
+      "matchId": "match-x",
+      "type": "suspicious_answer_speed",
+      "details": "answered in 0.1s",
+      "riskLevel": 2,
+      "createdAt": "2026-10-22T10:45:52.030Z"
+    }
+  ],
+  "queue": [
+    {
+      "userId": "520c706c-4398-4831-816b-ab030797100e",
+      "quizId": "test-ent",
+      "rating": 1184,
+      "ratingMin": 984,
+      "ratingMax": 1384,
+      "joinedAt": "2026-10-22T10:45:52.038Z"
+    }
+  ]
+}

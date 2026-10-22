@@ -1,0 +1,5 @@
+node_modules/
+.DS_Store
+*.log
+_patch2.ps1
+_patch_home.py
